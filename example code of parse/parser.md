@@ -102,7 +102,7 @@ yyerror(char* s){
 1. WE ARE USING `` yyparse() `` 
 2. FOR EXECUTION 
 + FOR LEX `` flex filename.l ``
-+ FOR PARSE `` bison -d -t filename.y
++ FOR PARSE `` bison -d -t filename.y``
 >After executing this bison -d -t filename.y , two files will generate name ``filename.tab.h`` and ``filename.tab.c``,we fill put tab.h one in our lex code as you can see in our example code .
 
 + ``gcc filename.l filename.tab.c ``
