@@ -55,7 +55,7 @@ ___
 yywrap() {}
 
 ```
-> AS YOU CAN SEE WE ARE NOT USING THE DRIVER FUNCTION `` (int main()``) here in lexing , rest we can understand in parse code
+> As you can know we are not using driver function `` (int main()``) here in the code , rest we can understand in parse code
 ### PARSING ###
 ```
 %{
