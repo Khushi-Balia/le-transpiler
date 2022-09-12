@@ -37,27 +37,22 @@ void ast_declaration_printer(ast_node_declaration *decl, FILE* handle)
     {
         if (decl->expression == NULL)
         {
-            if (decl->symbol_entry->data_type == DT_INTEGER || decl->symbol_entry->data_type == DT_BOOLEAN)
+           
             {
-                fprintf(handle, "\t%s %s = 0;\n", "int", decl->symbol_entry->identifier);
+                fprintf(handle, "int","\t%s ;",  decl->symbol_entry->identifier);
             }
-            else if (decl->symbol_entry->data_type == DT_CHAR_)
-            {
-                fprintf(handle, "\t%s %s = 0;\n", "char", decl->symbol_entry->identifier);
-            }
+           
         }
         else if (decl->expression != NULL)
         {
-            if (decl->symbol_entry->data_type == DT_INTEGER || decl->symbol_entry->data_type == DT_BOOLEAN)
+            
             {
-                fprintf(handle, "\t%s %s = ", "int", decl->symbol_entry->identifier);
-            }
-            else if (decl->symbol_entry->data_type == DT_CHAR_)
-            {
-                fprintf(handle, "\t%s %s = ", "char", decl->symbol_entry->identifier);
-            }
+                fprintf(handle,"int" ,"\t%s = ",  decl->symbol_entry->identifier);
+            } 
+        
+            
             ast_expression_printer(decl->expression, handle);
-            fprintf(handle, "%s", ";\n");
+            fprintf(handle, "%d", ";");
         }
         
     }
@@ -65,11 +60,11 @@ void ast_declaration_printer(ast_node_declaration *decl, FILE* handle)
 
 void ast_assignment_printer(ast_node_assignment *assg, FILE* handle)
 {
-    if (assg != NULL && handle != NULL)
+    if(assg != NULL && handle != NULL)
     {
         fprintf(handle, "\t%s = ", assg->symbol_entry->identifier);
         ast_expression_printer(assg->expression, handle);
-        fprintf(handle, "%s", ";\n");
+        fprintf(handle, "%d", ";\n");
     }
     
 }
@@ -100,20 +95,32 @@ void ast_expression_printer(ast_node_expression* node, FILE* handle)
         }
 }
 
+
+
 int code_printer(ast_node* ast)
 {
-    FILE* handle = fopen("/tmp/temp.c", "w+");
+    FILE* handle = fopen("/temp/temp.c", "w+");
 
     if (handle == NULL)
     {
         fprintf(stderr, "Unable to create translated file\n");
         exit(0);
+   
+        fprintf(handle, "%s", BEGIN);
+        fprintf(handle, "%s", START_COUNTER);
+        fprintf(handle, "%s", STOP_COUNTER);
+        fprintf(handle, "%s", READ_COUNTER);
+    }
+    else
+    {
+       
+        fprintf(handle, "%s", TEST); 
     }
 
     int i = 0;
     ast_node *temp;
 
-    fprintf(handle,"%s","}\n");
+    fprintf(handle,"%s",MAIN);
     temp = NULL;
     i = 0;
 
@@ -134,6 +141,6 @@ int code_printer(ast_node* ast)
                 break;
         }
     }
-    fprintf(handle,"%s","}\n");
+    fprintf(handle,"%s",END);
     fclose(handle);
 }
