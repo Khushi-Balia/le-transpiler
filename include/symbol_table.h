@@ -11,6 +11,8 @@
 #define DT_INT_ARR 5
 #define DT_BOOL_ARR 6
 #define DT_CHAR_ARR 7
+#define DT_FLOAT_ 8
+
 
 typedef vec_t(struct symbol*) param;
 typedef struct symbol
@@ -18,6 +20,7 @@ typedef struct symbol
     char* identifier;
     int data_type;
     int value;
+    float valuef;
     int array_size;
     int scope; 
     struct symbol* next;

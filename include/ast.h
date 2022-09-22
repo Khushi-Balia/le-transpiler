@@ -21,6 +21,7 @@
 #define AST_NODE_LOGICAL_EXP         11
 #define AST_NODE_RANGE_EXP           1000
 #define AST_NODE_CONSTANT            12
+#define AST_NODE_CONSTANT_F          54
 #define AST_NODE_CONDITIONAL_IF      14
 #define AST_NODE_CONDITIONAL_ELSE_IF 15
 #define AST_NODE_CONSTANT_CHAR       10000
@@ -56,11 +57,19 @@
 #define AST_CONST_INT  46 // INT CONSTANT
 #define AST_CONST_BOOL 47 // BOOL CONSTANT
 #define AST_IDENTIFIER 48 // IDENTIFIER
+#define AST_CONST_FLOAT 54
 
 #define AST_DT_INT  49 // DATA TYPE INT
 #define AST_DT_BOOL 50 // DATA TYPE BOOL
 #define AST_DT_VOID 51 // DATA TYPE VOID
+#define AST_DT_FLOAT 52 
 #define AST_DT_CHAR 10001 // DATA TYPE CHAR
+#define AST_MT_SQUARE 53
+#define AST_MT_EXP 55
+#define AST_MT_SIN 56
+#define AST_MT_COS 57
+#define AST_MT_TAN 58
+#define AST_MT_LOG 59
 
 #define AST_NODE_PRINT_STRING_FUNCTION_CALL 68
 #define AST_NODE_PRINT_EXP_FUNCTION_CALL    69
@@ -201,6 +210,7 @@ struct ast_node_array_access
     int node_type;
     int opt;
     int value;
+    float valuef;
 
     ast_node *left;
     ast_node *right;
@@ -221,6 +231,7 @@ struct ast_node_range_expression
     int data_type;
 
     int value;
+    float valuef;
 };
 
  struct ast_node_variable
@@ -327,6 +338,7 @@ ast_node_assignment *create_assignment_node(sym_ptr symbol, ast_node_expression 
 ast_node_array_assignment *create_array_assignment_node(sym_ptr symbol, ast_node_expression *index, ast_node_expression *exp);
 ast_node_array_access *create_array_access_node(sym_ptr symbol, ast_node_expression *index);
 ast_node_expression *create_expression_node(int node_type, int opt, int value, ast_node *left, ast_node *right);
+ast_node_expression *create_expression_node_float(int node_type, int opt, float valuef, ast_node *left, ast_node *right);
 ast_node_range_expression *create_range_expression_node(ast_node_expression *start, ast_node_expression *stop, ast_node_expression *increment);
 ast_node_constant *create_constant_node(int data_type, int value);
 ast_node_variable *create_variable_node(int data_type, sym_ptr symbol); 

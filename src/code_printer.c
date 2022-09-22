@@ -102,6 +102,10 @@ void ast_declaration_printer(ast_node_declaration *decl, FILE* handle)
             {
                 fprintf(handle, "\t%s %s ;\n", "char", decl->symbol_entry->identifier);
             }
+            else if (decl->symbol_entry->data_type == DT_FLOAT_)
+            {
+                fprintf(handle, "\t%s %s ;\n", "float", decl->symbol_entry->identifier);
+            }
         }
         else if (decl->expression != NULL)
         {
@@ -112,6 +116,10 @@ void ast_declaration_printer(ast_node_declaration *decl, FILE* handle)
             else if (decl->symbol_entry->data_type == DT_CHAR_)
             {
                 fprintf(handle, "\t%s %s = ", "char", decl->symbol_entry->identifier);
+            }
+            else if (decl->symbol_entry->data_type == DT_FLOAT_)
+            {
+                fprintf(handle, "\t%s %s = ", "float", decl->symbol_entry->identifier);
             }
             ast_expression_printer(decl->expression, handle);
             fprintf(handle, "%s", ";\n");
@@ -263,6 +271,11 @@ void ast_expression_printer(ast_node_expression* node, FILE* handle)
         {
             fprintf(handle, " %d ", node->value);
         }
+
+        if (node->opt == AST_NODE_CONSTANT_F)
+        {
+            fprintf(handle, " %f ", node->valuef);
+        }
  
         if (node->opt == AST_NODE_CONSTANT_CHAR)
         {
@@ -280,6 +293,36 @@ void ast_expression_printer(ast_node_expression* node, FILE* handle)
                 fprintf(handle, " %s ", ((ast_node_variable*)node->left)->symbol_entry->identifier);
             }
             
+        }
+
+        if(node->opt == AST_MT_SQUARE)
+        {
+            fprintf(handle,"sqrt(%d ",node->value);
+            fprintf(handle, ")");
+        }
+
+        if(node->opt == AST_MT_SIN)
+        {
+            fprintf(handle,"sin(%f",node->valuef);
+            fprintf(handle, ")");
+        }
+
+        if(node->opt == AST_MT_COS)
+        {
+            fprintf(handle,"cos(%f",node->valuef);
+            fprintf(handle, ")");
+        }
+
+        if(node->opt == AST_MT_TAN)
+        {
+            fprintf(handle,"tan(%f",node->valuef);
+            fprintf(handle, ")");
+        }
+
+        if(node->opt == AST_MT_LOG)
+        {
+            fprintf(handle,"log(%f",node->valuef);
+            fprintf(handle, ")");
         }
 
         if (node->opt == AST_NODE_ARRAY_ACCESS)
@@ -329,8 +372,8 @@ void ast_conditional_if_printer(ast_node_conditional_if *node, FILE* handle)
 void ast_print_expression_function_call_printer(ast_node_print_expression_function_call *pfc, FILE *handle)
 {
     if (pfc != NULL && handle != NULL)
-    {
-        fprintf(handle, "printf(\"%%d\", ");
+    { 
+        fprintf(handle, "printf(\"%%f\", ");
         ast_expression_printer(pfc->expression, handle);
         fprintf(handle, ")");
         
@@ -480,6 +523,7 @@ int code_printer(ast_node* ast)
     }    
     
     fprintf(handle, "%s", TEST);
+    fprintf(handle, "%s", MATH);
     fprintf(handle, "\n");
     
     int i = 0;

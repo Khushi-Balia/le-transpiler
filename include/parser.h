@@ -80,6 +80,7 @@ union YYSTYPE
 #line 24 "src/parser.y"
 
     int integer;
+    float floatn;
     int boolean;
     char* string;
     struct symbol* symbol_handle;

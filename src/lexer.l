@@ -20,8 +20,10 @@
 braces               ("{"|"}")
 parenthesis          ("("|")")
 squares              ("["|"]")
-datatype             ("int"|"bool"|"char")
+datatype             ("int"|"bool"|"char"|"float")
+math                 ("root"|"exponent"|"sin"|"cos"|"tan"|"log")
 integer              ([0-9]+)
+floatn               ([0-9]*"."[0-9]+)
 char                 ("'"([ -~]|\t|\n|\r|\0)"'")
 string               (\"(\\.|[^"\\])*\")
 bool                 ("true"|"false")
@@ -153,15 +155,51 @@ colon                ([:])
   {
     return DT_CHAR;
   }
+  else if (!strcmp(yytext, "float"))
+  {
+    return DT_FLOAT;
+  }
   else
   {
     return DT_UNDEF;
   }
 }
 
+{math}               {
+  if (!strcmp(yytext, "root"))
+  {
+    return MT_SQUARE;
+  }
+  else if (!strcmp(yytext, "exponent"))
+  {
+    return MT_EXP;
+  }
+  else if (!strcmp(yytext, "sin"))
+  {
+    return MT_SIN;
+  }
+    else if (!strcmp(yytext, "cos"))
+  {
+    return MT_COS;
+  }
+    else if (!strcmp(yytext, "tan"))
+  {
+    return MT_TAN;
+  }
+    else if (!strcmp(yytext, "log"))
+  {
+    return MT_LOG;
+  }
+}
+
 {integer}               {
   yylval.integer = strtoll(yytext, NULL, 0);
   return CONST_INT;
+}
+
+{floatn}               {
+  yylval.floatn = strtof(yytext,NULL);
+  return CONST_FLOAT;
 }
 
 {bool}                  {
@@ -343,6 +381,10 @@ colon                ([:])
     else if (yylval.symbol_handle != NULL && yylval.symbol_handle->data_type == DT_BOOLEAN)
     {
       return BOOL_IDENTIFIER;
+    }
+    else if (yylval.symbol_handle != NULL && yylval.symbol_handle->data_type == DT_FLOAT_)
+    {
+      return FLOAT_IDENTIFIER;
     }
      else if (yylval.symbol_handle != NULL && yylval.symbol_handle->data_type == DT_VOID_)
     {

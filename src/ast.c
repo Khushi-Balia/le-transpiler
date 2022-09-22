@@ -168,6 +168,19 @@ ast_node_expression *create_expression_node(int node_type, int opt, int value, a
     return exp;
 }
 
+ast_node_expression *create_expression_node_float(int node_type, int opt, float valuef, ast_node *left, ast_node *right)
+{
+    ast_node_expression *exp = (ast_node_expression*)malloc(sizeof(ast_node_expression));
+
+    exp->node_type = node_type;
+    exp->opt = opt;
+    exp->valuef = valuef;
+    exp->left = left;
+    exp->right = right;
+
+    return exp;
+}
+
 ast_node_range_expression *create_range_expression_node(ast_node_expression *start, ast_node_expression *stop, ast_node_expression *increment)
 {
     ast_node_range_expression *exp = (ast_node_range_expression*)malloc(sizeof(ast_node_range_expression));
@@ -430,6 +443,31 @@ void ast_node_type(int node_type)
             printf("ast logical expression");
             break;
 
+        case AST_MT_SQUARE:
+            printf("ast node math square");
+            break;
+         
+        case AST_MT_EXP:
+            printf("ast node math exponent");
+            break;
+
+        case AST_MT_SIN:
+            printf("ast node math sin");
+            break;
+
+        case AST_MT_COS:
+            printf("ast node math cos");
+            break;
+
+        case AST_MT_TAN:
+            printf("ast node math tan");
+            break;
+
+        case AST_MT_LOG:
+            printf("ast node math log");
+            break;
+
+
         case AST_NODE_RANGE_EXP:
             printf("ast node range expression");
             break;
@@ -460,6 +498,14 @@ void ast_node_type(int node_type)
 
         case AST_NODE_CONDITIONAL_ELSE_IF:
             printf("ast elseif statement");
+            break;
+
+        case AST_NODE_CONSTANT:
+            printf("ast constant");
+            break;
+
+        case AST_NODE_CONSTANT_F:
+            printf("ast constant float");
             break;
 
         case AST_NODE_CONSTANT_CHAR:

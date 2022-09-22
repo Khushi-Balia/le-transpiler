@@ -25,6 +25,7 @@ ast_node *ast = NULL;
 %union{
     int integer;
     int boolean;
+    float floatn;
     char* string;
     struct symbol* symbol_handle;
     struct ast_node *node;
@@ -50,6 +51,7 @@ ast_node *ast = NULL;
     struct ast_node_loop_control *loop_control;
     struct ast_node_print_string_function_call *print_string_function_call;
     struct ast_node_print_expression_function_call *print_expression_function_call;
+    struct ast_node_print_expression_function_call_F *print_expression_function_call_F;
 }
 
 %left LBRACE RBRACE
@@ -77,7 +79,14 @@ ast_node *ast = NULL;
 %token DT_BOOL
 %token DT_VOID
 %token DT_CHAR
+%token DT_FLOAT
 %token DT_UNDEF
+%token MT_SQUARE
+%token MT_EXP
+%token MT_SIN
+%token MT_COS
+%token MT_TAN
+%token MT_LOG
 
 %token COLON COMMA
 
@@ -90,10 +99,11 @@ ast_node *ast = NULL;
 %token KW_PRINT 
 
 %token <integer> CONST_INT CONST_CHAR
+%token <floatn> CONST_FLOAT
 %token <boolean> CONST_BOOL
 %token <string> CONST_STRING
 
-%token <symbol_handle> IDENTIFIER INT_IDENTIFIER BOOL_IDENTIFIER CHAR_IDENTIFIER VOID_IDENTIFIER INT_ARR_IDENTIFIER CHAR_ARR_IDENTIFIER BOOL_ARR_IDENTIFIER
+%token <symbol_handle> IDENTIFIER INT_IDENTIFIER BOOL_IDENTIFIER CHAR_IDENTIFIER FLOAT_IDENTIFIER VOID_IDENTIFIER INT_ARR_IDENTIFIER CHAR_ARR_IDENTIFIER BOOL_ARR_IDENTIFIER
 
 %type <node> translation_unit program
 %type <statements> statement
@@ -230,6 +240,17 @@ declaration: DT_INT IDENTIFIER {
 
                printf ("int %s ;\n", $2->identifier);
            }
+           | DT_FLOAT IDENTIFIER { 
+               if ($2 == NULL)
+               {
+                   yyerror("variable already defined");
+               }
+
+               $2->data_type = DT_FLOAT_;
+               $$ = create_declaration_node($2, NULL);
+
+               printf ("float %s ;\n", $2->identifier);
+           }
            | DT_BOOL IDENTIFIER {
                if ($2 == NULL)
                {
@@ -296,6 +317,18 @@ declaration_assignment: DT_INT IDENTIFIER OPR_ASSIGNMENT arithmetic_expression {
 
                printf ("%s := %d\n", $2->identifier, $2->value);
             }
+            | DT_FLOAT IDENTIFIER OPR_ASSIGNMENT arithmetic_expression {
+               if ($2 == NULL)
+               {
+                   yyerror("variable already defined");
+               }
+
+               $2->data_type = DT_FLOAT_;
+               $2->valuef = $4->valuef;
+               $$ = create_declaration_node($2, $4);
+
+               printf ("%s := %f\n", $2->identifier, $2->valuef);
+            }
             | DT_BOOL IDENTIFIER OPR_ASSIGNMENT boolean_expression {
                if ($2 == NULL)
                {
@@ -356,6 +389,28 @@ assignment: INT_IDENTIFIER OPR_ASSIGNMENT arithmetic_expression {
                $$ = create_assignment_node($1, $3);
 
                printf("%s := %d\n", $1->identifier, $1->value);
+            }
+            | FLOAT_IDENTIFIER OPR_ASSIGNMENT arithmetic_expression {
+               if ($1 == NULL)
+               {
+                   yyerror("variable already defined");
+               }
+               
+               if ($1->is_function == 1)
+               {
+                   yyerror("identifier is a function, cannot assign value");
+               }
+               
+               if ($1->is_constant == 1)
+               {
+                   yyerror("identifer is a pin number constant, cannot assign value");
+               }
+
+               $1->data_type = DT_FLOAT_;
+               $1->valuef = $3->valuef;
+               $$ = create_assignment_node($1, $3);
+
+               printf("%s := %f\n", $1->identifier, $1->valuef);
             }
             | BOOL_IDENTIFIER OPR_ASSIGNMENT boolean_expression {
                 if ($1 == NULL)
@@ -526,6 +581,9 @@ boolean_array_access: BOOL_ARR_IDENTIFIER LSQUARE arithmetic_expression RSQUARE 
 arithmetic_expression: CONST_INT {
               $$ = create_expression_node(AST_NODE_ARITHMETIC_EXP, AST_NODE_CONSTANT, $1, NULL, NULL);
           }
+          | CONST_FLOAT {
+              $$ = create_expression_node_float(AST_NODE_ARITHMETIC_EXP, AST_NODE_CONSTANT_F, $1, NULL, NULL);
+          }
           | CONST_CHAR {
               $$ = create_expression_node(AST_NODE_ARITHMETIC_EXP, AST_NODE_CONSTANT_CHAR, $1, NULL, NULL);
           }
@@ -534,7 +592,24 @@ arithmetic_expression: CONST_INT {
               {
                   if ($1->data_type == DT_INTEGER)
                   {
-                      $$ = create_expression_node(AST_NODE_ARITHMETIC_EXP, AST_NODE_VARIABLE, $1->value, (ast_node*)create_variable_node(DT_INTEGER, $1), NULL);
+                      $$ = create_expression_node(AST_NODE_ARITHMETIC_EXP, AST_NODE_VARIABLE, $1->valuef, (ast_node*)create_variable_node(DT_INTEGER, $1), NULL);
+                  }
+                  else if ($1->data_type == DT_UNDEF)
+                  {
+                      yyerror("variable undefined");
+                  }
+                  else if ($1->data_type == DT_BOOLEAN)
+                  {
+                      yyerror("bool variable not allowed with int/char");
+                  }
+              }
+          } 
+          | FLOAT_IDENTIFIER {
+              if ($1 != NULL)
+              {
+                  if ($1->data_type == DT_FLOAT_)
+                  {
+                      $$ = create_expression_node_float(AST_NODE_ARITHMETIC_EXP, AST_NODE_VARIABLE, $1->value, (ast_node*)create_variable_node(DT_FLOAT_, $1), NULL);
                   }
                   else if ($1->data_type == DT_UNDEF)
                   {
@@ -568,6 +643,24 @@ arithmetic_expression: CONST_INT {
               }
               $$ = create_expression_node(AST_NODE_ARITHMETIC_EXP, AST_OPR_DIV, $1->value / $3->value, (ast_node*)$1, (ast_node*)$3);
           }
+          | MT_SQUARE LPAREN arithmetic_expression RPAREN {
+              $$ = create_expression_node(AST_NODE_ARITHMETIC_EXP, AST_MT_SQUARE, $3->value, NULL, NULL); 
+          }
+          | MT_EXP LPAREN arithmetic_expression RPAREN {
+              $$ = create_expression_node_float(AST_NODE_ARITHMETIC_EXP, AST_MT_EXP, $3->valuef, NULL, NULL); 
+          }
+          | MT_SIN LPAREN arithmetic_expression RPAREN {
+              $$ = create_expression_node_float(AST_NODE_ARITHMETIC_EXP, AST_MT_SIN, $3->valuef, NULL, NULL); 
+          }
+          | MT_COS LPAREN arithmetic_expression RPAREN {
+              $$ = create_expression_node_float(AST_NODE_ARITHMETIC_EXP, AST_MT_COS, $3->valuef, NULL, NULL); 
+          }
+          | MT_TAN LPAREN arithmetic_expression RPAREN {
+              $$ = create_expression_node_float(AST_NODE_ARITHMETIC_EXP, AST_MT_TAN, $3->valuef, NULL, NULL); 
+          }
+          | MT_LOG LPAREN arithmetic_expression RPAREN {
+              $$ = create_expression_node_float(AST_NODE_ARITHMETIC_EXP, AST_MT_LOG, $3->valuef, NULL, NULL); 
+          }
           | arithmetic_expression OPR_MOD arithmetic_expression {
               $$ = create_expression_node(AST_NODE_ARITHMETIC_EXP, AST_OPR_MOD, $1->value % $3->value, (ast_node*)$1, (ast_node*)$3);
           }
@@ -577,6 +670,7 @@ arithmetic_expression: CONST_INT {
           | char_function_call {
               $$ = create_expression_node(AST_NODE_ARITHMETIC_EXP, AST_NODE_FUNC_CALL, $1->symbol_entry->value, (ast_node*)$1, NULL);
           }
+          
           ;
 
 boolean_expression: CONST_BOOL {

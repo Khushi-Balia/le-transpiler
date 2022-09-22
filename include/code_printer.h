@@ -32,9 +32,11 @@
 #define _DT_VOID_ "void"
 #define _DT_BOOL_ "bool"
 #define _DT_CHAR_ "char"
+#define _DT_FLOAT_ "float"
 
 #define TEST "#include<stdio.h>\n"
 #define BEGIN "#include <stdint.h>\n#include <stddef.h>\n"
+#define MATH "#include <math.h>\n"
 #define MAIN "\nint main(void)\n{\n"
 #define END "\n\treturn 0;\n}\n"
 
