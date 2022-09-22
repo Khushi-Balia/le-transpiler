@@ -24,12 +24,28 @@ void ast_compound_statement_printer(ast_node_compound_statement *cmpd_stmt, FILE
                 ast_declaration_printer(((ast_node_statements*)temp)->child_nodes.declaration, handle);
                 break;
 
+            case AST_NODE_ARRAY_DECLARATION:
+                ast_array_declaration_printer(((ast_node_statements*)temp)->child_nodes.array_declaration, handle);
+                break;
+
             case AST_NODE_ASSIGNMENT:
                 ast_assignment_printer(((ast_node_statements*)temp)->child_nodes.assignment, handle);
                 break;
 
+            case AST_NODE_ARRAY_ASSIGNMENT:
+                ast_array_assignment_printer(((ast_node_statements*)temp)->child_nodes.array_assignment, handle);
+                break;
+
             case AST_NODE_CONDITIONAL_IF:
                 ast_conditional_if_printer(((ast_node_statements*)temp)->child_nodes.if_else, handle); 
+                break;
+
+            case AST_NODE_LOOP_FOR:
+                ast_loop_for_printer(((ast_node_statements*)temp)->child_nodes.loop_for, handle);
+                break;
+            
+            case AST_NODE_LOOP_WHILE:
+                ast_loop_while_printer(((ast_node_statements*)temp)->child_nodes.loop_while, handle);
                 break;
 
             case AST_NODE_FUNC_CALL:
@@ -48,6 +64,20 @@ void ast_compound_statement_printer(ast_node_compound_statement *cmpd_stmt, FILE
                 fprintf(handle, "%s", "\t");
                 ast_print_expression_function_call_printer(((ast_node_statements*)temp)->child_nodes.print_expression_function_call, handle);
                 fprintf(handle, "%s", ";\n");
+                break;
+
+            case AST_NODE_LOOP_BREAK:
+                if (((ast_node_statements*)temp)->child_nodes.loop_control->node_type == AST_NODE_LOOP_BREAK)
+                {
+                    fprintf(handle, "\t%s;\n", "break");
+                }
+                break;
+
+            case AST_NODE_LOOP_CONTINUE:
+                if (((ast_node_statements*)temp)->child_nodes.loop_control->node_type == AST_NODE_LOOP_CONTINUE)
+                {
+                    fprintf(handle, "\t%s;\n", "continue");
+                }
                 break;
         
         }
@@ -87,6 +117,60 @@ void ast_declaration_printer(ast_node_declaration *decl, FILE* handle)
             fprintf(handle, "%s", ";\n");
         }
         
+    }
+}
+
+void ast_array_declaration_printer(ast_node_array_declaration *decl, FILE *handle)
+{
+    if (decl != NULL && handle != NULL)
+    {
+        if (decl->initial_string == NULL)
+        {
+            if (decl->symbol_entry->data_type == DT_INT_ARR || decl->symbol_entry->data_type == DT_BOOL_ARR)
+            {
+                fprintf(handle, "\t%s %s[", "int", decl->symbol_entry->identifier);
+                ast_expression_printer(decl->size, handle);
+                fprintf(handle, "];\n");
+            }
+            else if (decl->symbol_entry->data_type == DT_CHAR_ARR)
+            {
+                fprintf(handle, "\t%s %s[", "char", decl->symbol_entry->identifier);
+                ast_expression_printer(decl->size, handle);
+                fprintf(handle, "];\n");
+            }
+        }
+        else
+        {
+            fprintf(handle, "\t%s %s[", "char", decl->symbol_entry->identifier);
+            ast_expression_printer(decl->size, handle);
+            fprintf(handle, "] = %s;\n", decl->initial_string);
+        }
+    }
+    else
+    {
+        printf("NULL!!\n");
+    }
+}
+
+void ast_array_assignment_printer(ast_node_array_assignment *assign, FILE* handle)
+{
+    if (assign != NULL && handle != NULL)
+    {
+        fprintf(handle, "\t%s[", assign->symbol_entry->identifier);
+        ast_expression_printer(assign->index, handle);
+        fprintf(handle, "] = ");
+        ast_expression_printer(assign->expression, handle);
+        fprintf(handle, ";\n");
+    }
+}
+
+void ast_array_access_printer(ast_node_array_access *access, FILE* handle)
+{
+    if (access != NULL && handle != NULL)
+    {
+        fprintf(handle, "\t%s[", access->symbol_entry->identifier);
+        ast_expression_printer(access->index, handle);
+        fprintf(handle, "]");
     }
 }
 
@@ -198,6 +282,11 @@ void ast_expression_printer(ast_node_expression* node, FILE* handle)
             
         }
 
+        if (node->opt == AST_NODE_ARRAY_ACCESS)
+        {
+            ast_array_access_printer((ast_node_array_access*)node->left, handle);
+        }
+
         if (node->opt == AST_NODE_FUNC_CALL)
         {
             ast_function_call_printer((ast_node_function_call*)node->left, handle);
@@ -251,6 +340,42 @@ void ast_print_expression_function_call_printer(ast_node_print_expression_functi
         }
     }
 }
+
+void ast_loop_for_printer(ast_node_loop_for *node, FILE* handle)
+{
+    if (node != NULL && handle != NULL)
+    {
+        /*
+        {
+            for (int %identifier = %start; %identifier < %end; %identifier += %increment) %compound
+            for (int %identifier = %start; %identifier > %end; %identifier += %increment) %compound
+        }
+        */
+
+        fprintf(handle, "\nfor (int %s = ", node->init->symbol_entry->identifier);
+        ast_expression_printer(node->range->start, handle);
+        fprintf(handle, ";%s <", node->init->symbol_entry->identifier);
+        ast_expression_printer(node->range->stop, handle);
+        fprintf(handle, ";%s +=", node->init->symbol_entry->identifier);
+        ast_expression_printer(node->range->increment, handle);
+        fprintf(handle, ")\n");
+
+        ast_compound_statement_printer(node->body, handle, 0);
+
+    }
+}
+
+void ast_loop_while_printer(ast_node_loop_while *node, FILE* handle)
+{
+    if (node != NULL && handle != NULL)
+    {
+        fprintf(handle, "\t%s", "while");
+        ast_expression_printer(node->condition, handle);
+        fprintf(handle, "\n");
+        ast_compound_statement_printer(node->body, handle, 0);
+    }
+}
+
 
 void ast_function_call_printer(ast_node_function_call *fc, FILE* handle)
 {
@@ -341,7 +466,7 @@ void ast_function_definition(ast_node_function_def *def, FILE* handle)
             ast_expression_printer(def->return_statment, handle);
             fprintf(handle, "%s", ";\n");
         }
-        fprintf(handle, "%s", "}\n");
+        fprintf(handle, "\t%s", "}\n");
     }
 }
 
@@ -382,13 +507,29 @@ int code_printer(ast_node* ast)
             case AST_NODE_DECLARATION:
                 ast_declaration_printer(((ast_node_statements*)temp)->child_nodes.declaration, handle);
                 break;
+
+            case AST_NODE_ARRAY_DECLARATION:
+                ast_array_declaration_printer(((ast_node_statements*)temp)->child_nodes.array_declaration, handle);
+                break;
             
             case AST_NODE_ASSIGNMENT:
                 ast_assignment_printer(((ast_node_statements*)temp)->child_nodes.assignment, handle);
                 break;
 
+            case AST_NODE_ARRAY_ASSIGNMENT:
+                ast_array_assignment_printer(((ast_node_statements*)temp)->child_nodes.array_assignment, handle);
+                break;
+
             case AST_NODE_CONDITIONAL_IF:
                 ast_conditional_if_printer(((ast_node_statements*)temp)->child_nodes.if_else, handle); 
+                break;
+
+            case AST_NODE_LOOP_FOR:
+                ast_loop_for_printer(((ast_node_statements*)temp)->child_nodes.loop_for, handle);
+                break;
+            
+            case AST_NODE_LOOP_WHILE:
+                ast_loop_while_printer(((ast_node_statements*)temp)->child_nodes.loop_while, handle);
                 break;
 
             case AST_NODE_PRINT_STRING_FUNCTION_CALL:

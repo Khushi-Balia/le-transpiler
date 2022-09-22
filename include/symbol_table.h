@@ -8,6 +8,9 @@
 #define DT_BOOLEAN 2
 #define DT_VOID_ 3
 #define DT_CHAR_ 4
+#define DT_INT_ARR 5
+#define DT_BOOL_ARR 6
+#define DT_CHAR_ARR 7
 
 typedef vec_t(struct symbol*) param;
 typedef struct symbol

@@ -32,9 +32,17 @@ ast_node_statements *create_statement_node(int node_type, void *child)
             stmt->child_nodes.declaration = child;
             break;  
 
+        case AST_NODE_ARRAY_DECLARATION:
+            stmt->child_nodes.array_declaration = child;
+            break;
+
         case AST_NODE_ASSIGNMENT:
             stmt->child_nodes.assignment = child;
             break;  
+
+        case AST_NODE_ARRAY_ASSIGNMENT:
+            stmt->child_nodes.array_assignment = child;
+            break;
 
         case AST_NODE_CONDITIONAL_IF:
             stmt->child_nodes.if_else = child;
@@ -54,6 +62,19 @@ ast_node_statements *create_statement_node(int node_type, void *child)
             
         case AST_NODE_FUNC_CALL:
             stmt->child_nodes.function_call = child;
+            break;
+
+                case AST_NODE_LOOP_FOR:
+            stmt->child_nodes.loop_for = child;
+            break;
+        
+        case AST_NODE_LOOP_WHILE: 
+            stmt->child_nodes.loop_while = child;
+            break;
+        
+        case AST_NODE_LOOP_BREAK:
+        case AST_NODE_LOOP_CONTINUE:
+            stmt->child_nodes.loop_control = child;
             break;
 
     }
@@ -88,6 +109,18 @@ ast_node_declaration *create_declaration_node(sym_ptr symbol, ast_node_expressio
     return decl;
 }
 
+ast_node_array_declaration *create_array_declaration_node(sym_ptr symbol, ast_node_expression *size, char *initial_string)
+{
+    ast_node_array_declaration *decl = (ast_node_array_declaration*)malloc(sizeof(ast_node_array_declaration));
+
+    decl->node_type = AST_NODE_ARRAY_DECLARATION;
+    decl->initial_string = initial_string;
+    decl->size = size;
+    decl->symbol_entry = symbol;
+
+    return decl;
+}
+
 ast_node_assignment *create_assignment_node(sym_ptr symbol, ast_node_expression *exp)
 {
     ast_node_assignment *assgn = (ast_node_assignment*)malloc(sizeof(ast_node_assignment));
@@ -99,6 +132,29 @@ ast_node_assignment *create_assignment_node(sym_ptr symbol, ast_node_expression 
     return assgn;
 }
 
+ast_node_array_assignment *create_array_assignment_node(sym_ptr symbol, ast_node_expression *index, ast_node_expression *exp)
+{
+    ast_node_array_assignment *assign = (ast_node_array_assignment*)malloc(sizeof(ast_node_array_assignment));
+
+    assign->node_type = AST_NODE_ARRAY_ASSIGNMENT;
+    assign->expression = exp;
+    assign->index = index;
+    assign->symbol_entry = symbol;
+
+    return assign;
+}
+
+ast_node_array_access *create_array_access_node(sym_ptr symbol, ast_node_expression *index)
+{
+    ast_node_array_access *access = (ast_node_array_access*)malloc(sizeof(ast_node_array_access));
+
+    access->node_type = AST_NODE_ARRAY_ACCESS;
+    access->index = index;
+    access->symbol_entry = symbol;
+
+    return access;
+}
+
 ast_node_expression *create_expression_node(int node_type, int opt, int value, ast_node *left, ast_node *right)
 {
     ast_node_expression *exp = (ast_node_expression*)malloc(sizeof(ast_node_expression));
@@ -108,6 +164,26 @@ ast_node_expression *create_expression_node(int node_type, int opt, int value, a
     exp->value = value;
     exp->left = left;
     exp->right = right;
+
+    return exp;
+}
+
+ast_node_range_expression *create_range_expression_node(ast_node_expression *start, ast_node_expression *stop, ast_node_expression *increment)
+{
+    ast_node_range_expression *exp = (ast_node_range_expression*)malloc(sizeof(ast_node_range_expression));
+
+    exp->node_type = AST_NODE_RANGE_EXP;
+    if (!start)
+    {
+        start = create_expression_node(AST_NODE_ARITHMETIC_EXP, AST_NODE_CONSTANT, 0, NULL, NULL);
+    }
+    exp->start = start;
+    exp->stop = stop;
+    if (!increment)
+    {
+        increment = create_expression_node(AST_NODE_ARITHMETIC_EXP, AST_NODE_CONSTANT, 1, NULL, NULL);
+    }
+    exp->increment = increment;
 
     return exp;
 }
@@ -148,6 +224,38 @@ ast_node_conditional_else_if *add_else_if_node(ast_node_conditional_else_if *par
     vec_push(&parent->else_if, temp);
 
     return parent;
+}
+
+ast_node_loop_for *create_loop_for_node(ast_node_variable *init, ast_node_range_expression *range, ast_node_compound_statement *body)
+{
+    ast_node_loop_for *loop_for = (ast_node_loop_for*)malloc(sizeof(ast_node_loop_for));
+
+    loop_for->node_type = AST_NODE_LOOP_FOR;
+    loop_for->init = init;
+    loop_for->range = range;
+    loop_for->body = body;
+
+    return loop_for;
+}
+
+ast_node_loop_while *create_loop_while_node(ast_node_expression *condition, ast_node_compound_statement *body)
+{
+    ast_node_loop_while *loop_while = (ast_node_loop_while*)malloc(sizeof(ast_node_loop_while));
+
+    loop_while->node_type = AST_NODE_LOOP_FOR;
+    loop_while->condition = condition;
+    loop_while->body = body;
+
+    return loop_while;
+}
+
+ast_node_loop_control *create_loop_control_node(int node_type)
+{
+    ast_node_loop_control *loop_control = (ast_node_loop_control*)malloc(sizeof(ast_node_loop_control));
+
+    loop_control->node_type = node_type;
+
+    return loop_control;
 }
 
 ast_node_function_def *create_function_def_node(sym_ptr symbol_entry, ast_node_param *params, ast_node_compound_statement *body, ast_node_expression *return_stmt)
@@ -294,8 +402,16 @@ void ast_node_type(int node_type)
             printf("ast declaration");
             break;
 
+        case AST_NODE_ARRAY_DECLARATION:
+            printf("ast array declaration");
+            break;
+
         case AST_NODE_ASSIGNMENT:
             printf("ast assignment");
+            break;
+
+        case AST_NODE_ARRAY_ASSIGNMENT:
+            printf("ast array assignment");
             break;
 
         case AST_NODE_ARITHMETIC_EXP:
@@ -312,6 +428,30 @@ void ast_node_type(int node_type)
 
         case AST_NODE_LOGICAL_EXP:
             printf("ast logical expression");
+            break;
+
+        case AST_NODE_RANGE_EXP:
+            printf("ast node range expression");
+            break;
+
+        case AST_NODE_LOOP_FOR:
+            printf("ast for statement");
+            break;
+
+        case AST_NODE_LOOP_WHILE:
+            printf("ast while statement");
+            break;
+
+        case AST_NODE_LOOP_CONTROL:
+            printf("ast control statement");
+            break;
+
+        case AST_NODE_LOOP_BREAK:
+            printf("ast break statement");
+            break;
+
+        case AST_NODE_LOOP_CONTINUE:
+            printf("ast continue statement");
             break;
 
         case AST_NODE_CONDITIONAL_IF:

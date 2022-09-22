@@ -22,6 +22,7 @@ parenthesis          ("("|")")
 squares              ("["|"]")
 datatype             ("int"|"bool"|"char")
 integer              ([0-9]+)
+char                 ("'"([ -~]|\t|\n|\r|\0)"'")
 string               (\"(\\.|[^"\\])*\")
 bool                 ("true"|"false")
 identifier           ([a-zA-Z_][a-zA-Z0-9_]*)
@@ -29,7 +30,7 @@ relational_operators (">"|">="|"<"|"<="|"=="|"!=")
 logical_operators    ("and"|"or"|"not")
 bitwise_operators    ("~"|"&"|"|"|"^"|">>"|"<<")
 arithmetic_operators ("+"|"-"|"*"|"/"|"%")
-loops                ("for"|"while"|"break"|"continue")
+loops                ("for"|"while"|"break"|"continue"|"in")
 function             ("return"|"func"|"void")
 conditional          ("if"|"elif"|"else")
 print                ("out")
@@ -115,6 +116,10 @@ colon                ([:])
     inside_loop = 1;
     return KW_WHILE;
   }
+  else if (!strcmp(yytext, "in"))
+  {
+    return KW_IN;
+  }
   else if (!strcmp(yytext, "break"))
   {
     if (!inside_loop)
@@ -170,6 +175,11 @@ colon                ([:])
   }
 
   return CONST_BOOL;
+}
+
+{char}                  {
+  yylval.integer = (int)yytext[1];
+  return CONST_CHAR;
 }
 
 {string}                {
@@ -341,6 +351,18 @@ colon                ([:])
     else if (yylval.symbol_handle != NULL && yylval.symbol_handle->data_type == DT_CHAR_)
     {
       return CHAR_IDENTIFIER;
+    }
+    else if (yylval.symbol_handle != NULL && yylval.symbol_handle->data_type == DT_INT_ARR)
+    {
+      return INT_ARR_IDENTIFIER;
+    }
+    else if (yylval.symbol_handle != NULL && yylval.symbol_handle->data_type == DT_CHAR_ARR)
+    {
+      return CHAR_ARR_IDENTIFIER;
+    }
+    else if (yylval.symbol_handle != NULL && yylval.symbol_handle->data_type == DT_BOOL_ARR)
+    {
+      return BOOL_ARR_IDENTIFIER;
     }
   }
 

@@ -31,16 +31,23 @@ ast_node *ast = NULL;
     struct ast_node_statements *statements;
     struct ast_node_compound_statement *compound_statement;
     struct ast_node_declaration *declaration;
+    struct ast_node_array_declaration *array_declaration;
     struct ast_node_assignment *assignment;
+    struct ast_node_array_assignment *array_assignment;
+    struct ast_node_array_access *array_access;
     struct ast_node_constant *constant;
     struct ast_node_variable *variable;
     struct ast_node_expression *expression;
+    struct ast_node_range_expression *range_expression;
     struct ast_node_conditional_if *conditional_if;
     struct ast_node_function_def *function_def;
     struct ast_node_param *param;
     struct ast_node_function_call *function_call;
     struct ast_node_arguments *arguments;
     struct ast_node_conditional_else_if *conditional_else_if;
+    struct ast_node_loop_for *loop_for;
+    struct ast_node_loop_while *loop_while;
+    struct ast_node_loop_control *loop_control;
     struct ast_node_print_string_function_call *print_string_function_call;
     struct ast_node_print_expression_function_call *print_expression_function_call;
 }
@@ -86,15 +93,21 @@ ast_node *ast = NULL;
 %token <boolean> CONST_BOOL
 %token <string> CONST_STRING
 
-%token <symbol_handle> IDENTIFIER INT_IDENTIFIER BOOL_IDENTIFIER CHAR_IDENTIFIER VOID_IDENTIFIER 
+%token <symbol_handle> IDENTIFIER INT_IDENTIFIER BOOL_IDENTIFIER CHAR_IDENTIFIER VOID_IDENTIFIER INT_ARR_IDENTIFIER CHAR_ARR_IDENTIFIER BOOL_ARR_IDENTIFIER
 
 %type <node> translation_unit program
 %type <statements> statement
 %type <compound_statement> statement_list compound_statement conditional_statement_else
 %type <declaration> declaration declaration_assignment
 %type <assignment> assignment
+%type <array_declaration> array_declaration array_declaration_assignment
 %type <conditional_if> conditional_statement
 %type <conditional_else_if> conditional_statement_else_if
+%type <loop_for> loop_statement_for
+%type <loop_while> loop_statement_while
+%type <range_expression> range_expression
+%type <array_assignment> array_assignment
+%type <array_access> arithmetic_array_access boolean_array_access
 %type <expression> arithmetic_expression boolean_expression relational_expression logical_expression return_statement function_call_datatypes
 %type <function_def> function_definition 
 %type <param> parameter_list_def parameters
@@ -137,6 +150,10 @@ statement_list: statement {
                 $$ = create_compound_statement_node();
                 $$ = add_compound_statement_node($$, $1);
               }
+              | statement_list statement {
+                  $$  = add_compound_statement_node($1, $2);
+              }
+              ;
               ;
 
 statement: compound_statement {
@@ -146,17 +163,38 @@ statement: compound_statement {
          declaration {
              $$ = create_statement_node(AST_NODE_DECLARATION, (void*)$1); 
          }
+         | array_declaration {
+             $$ = create_statement_node(AST_NODE_ARRAY_DECLARATION, (void*)$1);
+         }
          | declaration_assignment {
              $$ = create_statement_node(AST_NODE_DECLARATION, (void*)$1);
          }
+         | array_declaration_assignment {
+             $$ = create_statement_node(AST_NODE_ARRAY_DECLARATION, (void*)$1);
+         }
          | assignment {
              $$ = create_statement_node(AST_NODE_ASSIGNMENT, (void*)$1);
+         }
+         | array_assignment {
+             $$ = create_statement_node(AST_NODE_ARRAY_ASSIGNMENT, (void*)$1);
          }
          | arithmetic_expression {
              $$ = create_statement_node(AST_NODE_CONSTANT, (void*)$1);
          }
          | conditional_statement {
              $$ = create_statement_node(AST_NODE_CONDITIONAL_IF, (void*)$1);
+         }
+         | loop_statement_for {
+             $$ = create_statement_node(AST_NODE_LOOP_FOR, (void*)$1);
+         }
+         | loop_statement_while {
+             $$ = create_statement_node(AST_NODE_LOOP_WHILE, (void*)$1);
+         }
+         | KW_BREAK {
+             $$ = create_statement_node(AST_NODE_LOOP_BREAK, (void*)create_loop_control_node(AST_NODE_LOOP_BREAK));
+         }
+         | KW_CONTINUE {
+             $$ = create_statement_node(AST_NODE_LOOP_CONTINUE, (void*)create_loop_control_node(AST_NODE_LOOP_CONTINUE));
          }
          | print_string_call {
              $$ = create_statement_node(AST_NODE_PRINT_STRING_FUNCTION_CALL, (void*)$1);
@@ -214,6 +252,38 @@ declaration: DT_INT IDENTIFIER {
            }
            ;
 
+array_declaration: DT_INT IDENTIFIER LSQUARE arithmetic_expression RSQUARE {
+                    if ($2 == NULL)
+                    {
+                        yyerror("variable already defined");
+                    }
+
+                    $2->data_type = DT_INT_ARR;
+                    $2->array_size = $4->value;
+                    $$ = create_array_declaration_node($2, $4, NULL);
+                }
+                | DT_CHAR IDENTIFIER LSQUARE arithmetic_expression RSQUARE {
+                    if ($2 == NULL)
+                    {
+                        yyerror("variable already defined");
+                    }
+
+                    $2->data_type = DT_CHAR_ARR;
+                    $2->array_size = $4->value;
+                    $$ = create_array_declaration_node($2, $4, NULL);
+                }
+                | DT_BOOL IDENTIFIER LSQUARE arithmetic_expression RSQUARE {
+                    if ($2 == NULL)
+                    {
+                        yyerror("variable already defined");
+                    }
+
+                    $2->data_type = DT_BOOL_ARR;
+                    $2->array_size = $4->value;
+                    $$ = create_array_declaration_node($2, $4, NULL);
+                }
+                ;
+
 declaration_assignment: DT_INT IDENTIFIER OPR_ASSIGNMENT arithmetic_expression {
                if ($2 == NULL)
                {
@@ -225,18 +295,6 @@ declaration_assignment: DT_INT IDENTIFIER OPR_ASSIGNMENT arithmetic_expression {
                $$ = create_declaration_node($2, $4);
 
                printf ("%s := %d\n", $2->identifier, $2->value);
-            }
-            | DT_CHAR IDENTIFIER OPR_ASSIGNMENT arithmetic_expression {
-                if ($2 == NULL)
-                {
-                    yyerror("variable already defined");
-                }
-
-                $2->data_type = DT_CHAR_;
-                $2->value = $4->value;
-                $$ = create_declaration_node($2, $4);
-
-                printf("%s := %c\n", $2->identifier, $2->value);
             }
             | DT_BOOL IDENTIFIER OPR_ASSIGNMENT boolean_expression {
                if ($2 == NULL)
@@ -263,7 +321,19 @@ declaration_assignment: DT_INT IDENTIFIER OPR_ASSIGNMENT arithmetic_expression {
                 printf("%s := %c\n", $2->identifier, $2->value);
             }
             ;
-            ;
+
+array_declaration_assignment: DT_CHAR IDENTIFIER LSQUARE arithmetic_expression RSQUARE OPR_ASSIGNMENT CONST_STRING {
+                                if ($2 == NULL)
+                                {
+                                    yyerror("variable already defined");
+                                }
+
+                                $2->data_type = DT_CHAR_ARR;
+                                $2->array_size = $4->value;
+                                $$ = create_array_declaration_node($2, $4, $7);
+                            }
+                            ;
+            
 
 assignment: INT_IDENTIFIER OPR_ASSIGNMENT arithmetic_expression {
                if ($1 == NULL)
@@ -333,8 +403,131 @@ assignment: INT_IDENTIFIER OPR_ASSIGNMENT arithmetic_expression {
             }
             ;
 
+array_assignment: INT_ARR_IDENTIFIER LSQUARE arithmetic_expression RSQUARE OPR_ASSIGNMENT arithmetic_expression {
+                    if ($1 == NULL)
+                    {
+                        yyerror("variable already defined");
+                    }
+
+                    if ($1->is_function == 1)
+                    {
+                        yyerror("identifier is a function, cannot assign value");
+                    }
+
+                    if ($1->is_constant == 1)
+                    {
+                        yyerror("identifier is a pin number constant, cannot assign value");
+                    }
+
+                    $1->data_type = DT_INT_ARR;
+                    $$ = create_array_assignment_node($1, $3, $6);
+                }
+                | CHAR_ARR_IDENTIFIER LSQUARE arithmetic_expression RSQUARE OPR_ASSIGNMENT arithmetic_expression {
+                    if ($1 == NULL)
+                    {
+                        yyerror("variable already defined");
+                    }
+
+                    if ($1->is_function == 1)
+                    {
+                        yyerror("identifier is a function, cannot assign value");
+                    }
+
+                    if ($1->is_constant == 1)
+                    {
+                        yyerror("identifier is a pin number constant, cannot assign value");
+                    }
+
+                    $1->data_type = DT_CHAR_ARR;
+                    $$ = create_array_assignment_node($1, $3, $6);
+                }
+                | BOOL_ARR_IDENTIFIER LSQUARE arithmetic_expression RSQUARE OPR_ASSIGNMENT boolean_expression {
+                    if ($1 == NULL)
+                    {
+                        yyerror("variable already defined");
+                    }
+
+                    if ($1->is_function == 1)
+                    {
+                        yyerror("identifier is a function, cannot assign value");
+                    }
+
+                    if ($1->is_constant == 1)
+                    {
+                        yyerror("identifier is a pin number constant, cannot assign value");
+                    }
+
+                    $1->data_type = DT_BOOL_ARR;
+                    $$ = create_array_assignment_node($1, $3, $6);
+                }
+                ;
+
+arithmetic_array_access: INT_ARR_IDENTIFIER LSQUARE arithmetic_expression RSQUARE {
+                if ($1 == NULL)
+                {
+                    yyerror("variable already defined");
+                }
+
+                if ($1->is_function == 1)
+                {
+                    yyerror("identifier is a function, cannot assign value");
+                }
+
+                if ($1->is_constant == 1)
+                {
+                    yyerror("identifier is a constant, cannot assign value");
+                }
+
+                $1->data_type = DT_INT_ARR;
+                $$ = create_array_access_node($1, $3);
+            }
+            | CHAR_ARR_IDENTIFIER LSQUARE arithmetic_expression RSQUARE {
+                if ($1 == NULL)
+                {
+                    yyerror("variable already defined");
+                }
+
+                if ($1->is_function == 1)
+                {
+                    yyerror("identifier is a function, cannot assign value");
+                }
+
+                if ($1->is_constant == 1)
+                {
+                    yyerror("identifier is a constant, cannot assign value");
+                }
+
+                $1->data_type = DT_CHAR_ARR;
+                $$ = create_array_access_node($1, $3);
+            }
+            ;
+
+boolean_array_access: BOOL_ARR_IDENTIFIER LSQUARE arithmetic_expression RSQUARE {
+                if ($1 == NULL)
+                {
+                    yyerror("variable already defined");
+                }
+
+                if ($1->is_function == 1)
+                {
+                    yyerror("identifier is a function, cannot assign value");
+                }
+
+                if ($1->is_constant == 1)
+                {
+                    yyerror("identifier is a constant, cannot assign value");
+                }
+
+                $1->data_type = DT_BOOL_ARR;
+                $$ = create_array_access_node($1, $3);
+            }
+            ;
+
 arithmetic_expression: CONST_INT {
               $$ = create_expression_node(AST_NODE_ARITHMETIC_EXP, AST_NODE_CONSTANT, $1, NULL, NULL);
+          }
+          | CONST_CHAR {
+              $$ = create_expression_node(AST_NODE_ARITHMETIC_EXP, AST_NODE_CONSTANT_CHAR, $1, NULL, NULL);
           }
           | INT_IDENTIFIER {
               if ($1 != NULL)
@@ -353,6 +546,9 @@ arithmetic_expression: CONST_INT {
                   }
               }
           } 
+          | arithmetic_array_access {
+              $$ = create_expression_node(AST_NODE_ARITHMETIC_EXP, AST_NODE_ARRAY_ACCESS, 0, (ast_node*)$1, NULL);
+          }
           | arithmetic_expression OPR_BW_LFT arithmetic_expression {
               $$ = create_expression_node(AST_NODE_ARITHMETIC_EXP, AST_OPR_BW_LFT, $1->value << $3->value, (ast_node*)$1, (ast_node*)$3);
           }
@@ -386,6 +582,26 @@ arithmetic_expression: CONST_INT {
 boolean_expression: CONST_BOOL {
               $$ = create_expression_node(AST_NODE_BOOLEAN_EXP, AST_NODE_CONSTANT, $1, NULL, NULL);
           }
+          | BOOL_IDENTIFIER {
+              if ($1 != NULL)
+              {
+                  if ($1->data_type == DT_BOOLEAN)
+                  {
+                      $$ = create_expression_node(AST_NODE_BOOLEAN_EXP, AST_NODE_VARIABLE, $1->value, (ast_node*)create_variable_node(DT_BOOLEAN, $1), NULL);
+                  }
+                  else if ($1->data_type == DT_UNDEF)
+                  {
+                      yyerror("variable undefined");
+                  }
+                  else
+                  {
+                      yyerror("int variable not allowed with bool");
+                  }
+              }
+          }
+          | boolean_array_access {
+              $$ = create_expression_node(AST_NODE_BOOLEAN_EXP, AST_NODE_ARRAY_ACCESS, 0, (ast_node*)$1, NULL);
+          }
           | relational_expression {
               $$ = $1;
           }
@@ -394,6 +610,9 @@ boolean_expression: CONST_BOOL {
           }
           | bool_function_call {
               $$ = create_expression_node(AST_NODE_BOOLEAN_EXP, AST_NODE_FUNC_CALL, $1->symbol_entry->value, (ast_node*)$1, NULL);
+          }
+          | LPAREN boolean_expression RPAREN {
+              $$ = $2;
           }
           ;
 
@@ -451,6 +670,31 @@ conditional_statement_else: KW_ELSE COLON compound_statement {
                               $$ = NULL;
                           }
                           ;
+
+loop_statement_for: KW_FOR IDENTIFIER {
+                      $2->data_type = DT_INTEGER;}                    
+                    KW_IN range_expression compound_statement {
+                      $2->value = $5->start->value;
+                      $$ = create_loop_for_node(create_variable_node(AST_DT_INT, $2), $5, $6);
+                  }
+                  ;
+
+range_expression: COLON arithmetic_expression {
+                        $$ = create_range_expression_node(NULL, $2, NULL);
+                    }
+                    | arithmetic_expression COLON arithmetic_expression {
+                        $$ = create_range_expression_node($1, $3, NULL);
+                    }
+                    | arithmetic_expression COLON arithmetic_expression COLON arithmetic_expression {
+                        $$ = create_range_expression_node($1, $3, $5);
+                    }
+                    ;
+
+loop_statement_while: KW_WHILE boolean_expression COLON compound_statement {
+                      printf("inside while\n");
+                      $$ = create_loop_while_node($2, $4);
+                    }
+                    ;
 
 function_definition: KW_DEF IDENTIFIER COLON DT_INT {
                        if ($2 == NULL){yyerror("function name already defined");}
