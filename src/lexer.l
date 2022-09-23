@@ -20,8 +20,8 @@
 braces               ("{"|"}")
 parenthesis          ("("|")")
 squares              ("["|"]")
-datatype             ("int"|"bool"|"char"|"float")
-math                 ("root"|"exponent"|"sin"|"cos"|"tan"|"log")
+datatype             ("int"|"bool"|"char"|"float"|"complex")
+math                 ("root"|"exponent"|"sin"|"cos"|"tan"|"log"|"COMPLEX")
 integer              ([0-9]+)
 floatn               ([0-9]*"."[0-9]+)
 char                 ("'"([ -~]|\t|\n|\r|\0)"'")
@@ -159,10 +159,15 @@ colon                ([:])
   {
     return DT_FLOAT;
   }
+  else if (!strcmp(yytext, "complex"))
+  {
+    return DT_COMP;
+  }
   else
   {
     return DT_UNDEF;
   }
+
 }
 
 {math}               {
@@ -178,17 +183,21 @@ colon                ([:])
   {
     return MT_SIN;
   }
-    else if (!strcmp(yytext, "cos"))
+  else if (!strcmp(yytext, "cos"))
   {
     return MT_COS;
   }
-    else if (!strcmp(yytext, "tan"))
+  else if (!strcmp(yytext, "tan"))
   {
     return MT_TAN;
   }
-    else if (!strcmp(yytext, "log"))
+  else if (!strcmp(yytext, "log"))
   {
     return MT_LOG;
+  }
+  else if (!strcmp(yytext, "COMPLEX"))
+  {
+    return MT_COMP;
   }
 }
 
@@ -385,6 +394,10 @@ colon                ([:])
     else if (yylval.symbol_handle != NULL && yylval.symbol_handle->data_type == DT_FLOAT_)
     {
       return FLOAT_IDENTIFIER;
+    }
+    else if (yylval.symbol_handle != NULL && yylval.symbol_handle->data_type == DT_COMP_)
+    {
+      return COMP_IDENTIFIER;
     }
      else if (yylval.symbol_handle != NULL && yylval.symbol_handle->data_type == DT_VOID_)
     {

@@ -14,6 +14,7 @@
 #define _OPR_MUL " * " 
 #define _OPR_DIV " / " 
 #define _OPR_MOD " % "
+#define _COMMA ","
 
 #define _OPR_GT " > "  
 #define _OPR_LT " < " 
@@ -33,10 +34,12 @@
 #define _DT_BOOL_ "bool"
 #define _DT_CHAR_ "char"
 #define _DT_FLOAT_ "float"
+#define _DT_COMP_ "complex"
 
 #define TEST "#include<stdio.h>\n"
 #define BEGIN "#include <stdint.h>\n#include <stddef.h>\n"
 #define MATH "#include <math.h>\n"
+#define COMPLEX "#include <complex.h>\n"
 #define MAIN "\nint main(void)\n{\n"
 #define END "\n\treturn 0;\n}\n"
 

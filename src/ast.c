@@ -168,6 +168,20 @@ ast_node_expression *create_expression_node(int node_type, int opt, int value, a
     return exp;
 }
 
+ast_node_expression *create_expression_node_comp(int node_type, int opt, float valuef,float value2, ast_node *left, ast_node *right)
+{
+    ast_node_expression *exp = (ast_node_expression*)malloc(sizeof(ast_node_expression));
+
+    exp->node_type = node_type;
+    exp->opt = opt;
+    exp->valuef = valuef;
+    exp->value2 = value2;
+    exp->left = left;
+    exp->right = right;
+
+    return exp;
+}
+
 ast_node_expression *create_expression_node_float(int node_type, int opt, float valuef, ast_node *left, ast_node *right)
 {
     ast_node_expression *exp = (ast_node_expression*)malloc(sizeof(ast_node_expression));
@@ -453,6 +467,10 @@ void ast_node_type(int node_type)
 
         case AST_MT_SIN:
             printf("ast node math sin");
+            break;
+
+        case AST_MT_COMP:
+            printf("ast node math complex");
             break;
 
         case AST_MT_COS:

@@ -45,6 +45,7 @@
 
 #define AST_OPR_GT         32 // > 
 #define AST_OPR_LT         33 // <
+#define AST_OPR_MATH       61 // ,
 #define AST_OPR_EQ         34 // =
 #define AST_OPR_NE         35 // !=
 #define AST_OPR_GE         36 // >=
@@ -70,7 +71,8 @@
 #define AST_MT_COS 57
 #define AST_MT_TAN 58
 #define AST_MT_LOG 59
-
+#define AST_MT_COMP 60
+            
 #define AST_NODE_PRINT_STRING_FUNCTION_CALL 68
 #define AST_NODE_PRINT_EXP_FUNCTION_CALL    69
 
@@ -211,6 +213,7 @@ struct ast_node_array_access
     int opt;
     int value;
     float valuef;
+    float value2;
 
     ast_node *left;
     ast_node *right;
@@ -339,6 +342,7 @@ ast_node_array_assignment *create_array_assignment_node(sym_ptr symbol, ast_node
 ast_node_array_access *create_array_access_node(sym_ptr symbol, ast_node_expression *index);
 ast_node_expression *create_expression_node(int node_type, int opt, int value, ast_node *left, ast_node *right);
 ast_node_expression *create_expression_node_float(int node_type, int opt, float valuef, ast_node *left, ast_node *right);
+ast_node_expression *create_expression_node_comp(int node_type, int opt, float valuef,float value2, ast_node *left, ast_node *right);
 ast_node_range_expression *create_range_expression_node(ast_node_expression *start, ast_node_expression *stop, ast_node_expression *increment);
 ast_node_constant *create_constant_node(int data_type, int value);
 ast_node_variable *create_variable_node(int data_type, sym_ptr symbol); 

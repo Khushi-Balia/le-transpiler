@@ -106,6 +106,10 @@ void ast_declaration_printer(ast_node_declaration *decl, FILE* handle)
             {
                 fprintf(handle, "\t%s %s ;\n", "float", decl->symbol_entry->identifier);
             }
+            else if (decl->symbol_entry->data_type == DT_COMP_)
+            {
+                fprintf(handle, "\t%s %s %s ;\n","float", "complex", decl->symbol_entry->identifier);
+            }
         }
         else if (decl->expression != NULL)
         {
@@ -120,6 +124,10 @@ void ast_declaration_printer(ast_node_declaration *decl, FILE* handle)
             else if (decl->symbol_entry->data_type == DT_FLOAT_)
             {
                 fprintf(handle, "\t%s %s = ", "float", decl->symbol_entry->identifier);
+            }
+            else if (decl->symbol_entry->data_type == DT_COMP_)
+            {
+                fprintf(handle, "\t%s %s %s = ","float", "complex", decl->symbol_entry->identifier);
             }
             ast_expression_printer(decl->expression, handle);
             fprintf(handle, "%s", ";\n");
@@ -233,7 +241,12 @@ void ast_expression_printer(ast_node_expression* node, FILE* handle)
       
                 case AST_OPR_LT:     
                     fprintf(handle, "%s", _OPR_LT);
+                    break;  
+
+                case AST_OPR_MATH:     
+                    fprintf(handle, "%s", _COMMA);
                     break;     
+   
 
                 case AST_OPR_EQ:     
                     fprintf(handle, "%s", _OPR_EQ);
@@ -325,6 +338,22 @@ void ast_expression_printer(ast_node_expression* node, FILE* handle)
             fprintf(handle, ")");
         }
 
+        if(node->opt == AST_MT_COMP)
+        {
+            fprintf(handle,"CMPLX(");
+            if (((ast_node_variable*)node->left)->symbol_entry->is_constant == 0)
+            {
+                fprintf(handle, " %s ,", ((ast_node_variable*)node->left)->symbol_entry->identifier);
+            }
+            if (((ast_node_variable*)node->right)->symbol_entry->is_constant == 0)
+            {
+                fprintf(handle, " %s ", ((ast_node_variable*)node->right)->symbol_entry->identifier);
+            }
+            fprintf(handle, ")");
+        }
+
+
+
         if (node->opt == AST_NODE_ARRAY_ACCESS)
         {
             ast_array_access_printer((ast_node_array_access*)node->left, handle);
@@ -373,9 +402,12 @@ void ast_print_expression_function_call_printer(ast_node_print_expression_functi
 {
     if (pfc != NULL && handle != NULL)
     { 
-        fprintf(handle, "printf(\"%%f\", ");
+        fprintf(handle, "printf(\"%s + %si\", ","%f","%f");
+        fprintf(handle, "creal(");
         ast_expression_printer(pfc->expression, handle);
-        fprintf(handle, ")");
+        fprintf(handle, ") , cimag(");
+        ast_expression_printer(pfc->expression, handle);
+        fprintf(handle, ") )");
         
         if (pfc->add_newline)
         {
@@ -524,6 +556,7 @@ int code_printer(ast_node* ast)
     
     fprintf(handle, "%s", TEST);
     fprintf(handle, "%s", MATH);
+    fprintf(handle, "%s", COMPLEX);
     fprintf(handle, "\n");
     
     int i = 0;
