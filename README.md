@@ -49,6 +49,7 @@ This is the most challenging part. We need to parse the list of tokens that we r
 
 After this step, we do semantic parsing whose result is an abstract syntax tree, AST is a tree data structure which stores various token as it nodes, such that it can represent the code in an abstract way in memory. AST is what represents our language in memory, AST related functions are defined in [ast.c](https://github.com/Khushi-Balia/le-transpiler/blob/main/src/ast.c)
 
+![parser.y](https://github.com/Khushi-Balia/le-transpiler/blob/main/src/parser.y).
 ----
 
 ----
