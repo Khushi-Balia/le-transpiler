@@ -39,7 +39,7 @@ This is the simplest step. Given our grammar, we need to break down our input in
 
 This step basically reads from the input files, and generates tokens in the flex file. The tokens are defined in [lexer.l](https://github.com/Khushi-Balia/le-transpiler/blob/main/src/lexer.l), and the actions that need to be taken after detecting a token is specified in this file itself. For example, if it finds, "int" in the input file, lexer will return a token say KW_INT to the parser.
 
-![lexer](https://cdn1.byjus.com/wp-content/uploads/2022/01/the-architecture-of-lexical-analyzer.png)
+
 ----
 
 
