@@ -1,9 +1,10 @@
 <br />
 <p align ="center">
   <a href="https://github.com/VedantParanjape/simpPRU">
-    <img src="/images/PYLOX-1(1).png" alt="Logo" width="400" height="100">
+    <img src="/images/PYLOX-1(1).png" alt="Logo" width="400" height="400">
   </a>
 </p>
+
 # le-transpiler
 Building a toy compiler with a custom language(PYLOX), transpiling it to the C code
 
