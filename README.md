@@ -1,3 +1,9 @@
+<br />
+<p align ="center">
+  <a href="https://github.com/VedantParanjape/simpPRU">
+    <img src="/images/PYLOX-1(1).png" alt="Logo" width="400" height="100">
+  </a>
+</p>
 # le-transpiler
 Building a toy compiler with a custom language(PYLOX), transpiling it to the C code
 
@@ -85,3 +91,4 @@ Please refer to this language reference [page](https://github.com/Khushi-Balia/l
 - [Rajat's notes](https://github.com/rajatkaush11/le-transpiler/tree/develop-rajat)
 ---
 ## License 
+
