@@ -13,16 +13,7 @@
 ### Q) what is difference between a compiler and a transpiler ?
 - Basically a compiler converts a high level language to low level language whereas in a transpiler , it converts a high level language to another high level language 
 ----------
-## Working of a transpiler
 
--Lexal Analysis by using flex (process known as lexing)
-- syntax analysis by using bison (process known as parsing )
-- AST(AbstraCT  Syntax Tree)
-- code generation
-
-![](https://mukulrathi.com/static/ca3e949e7c8ee94b4d006715236ae6cf/3d189/parsing-overview.webp)
-
--------
 
 ---
 ## Table of contents 
