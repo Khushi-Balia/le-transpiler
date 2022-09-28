@@ -54,6 +54,7 @@ To put it down simply, a transpiler has the following phases
 - Also known as tokenization , it converts a sequence of characters (string) to lexemes 
 - These lexemes passes through lexer and it gives us tokens
 - These tokens are then send forward to use in parsing 
+>Extention of a lex program is .l
 - These tokens are defined in [lexer.l](https://github.com/Khushi-Balia/le-transpiler/blob/main/src/lexer.l),
 
 ![LEXER](https://qph.cf2.quoracdn.net/main-qimg-bd68eda594e9d8d081b4deafe9b9e092-lq)
