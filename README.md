@@ -64,9 +64,17 @@ To put it down simply, a transpiler has the following phases
 
 ---
 
-## 2) **PARSING**
-- Tokens are passed thorugh the parser and resulting in [parse tree ](https://en.wikipedia.org/wiki/Parse_tree  " parse tree ")
+### 2) **Parsing**
+
+
+- The tokens we get after lexing, are passed through the parser
+- On receiving the tokens, it forms a parse tree using it[parse tree ](https://en.wikipedia.org/wiki/Parse_tree  " parse tree ")
+- This parse tree is simplified, removing all the extra, syntactic stuff, to give the AST (Abstract Synatx tree)
+- Thus, we can say, AST is a compact version of the parse tree
+- The grammar of the code is set using bison
+
 - In parse tree , after getting rid of extra comment or other syntactic stuff is present it is passed through AST
+- >So the conversion of the tokens to AST is called parsing
 - The language grammar is defined in a bison file named [parser.y](https://github.com/Khushi-Balia/le-transpiler/blob/main/src/parser.y).
 ----
 >After this step, we do semantic parsing whose result is an abstract syntax tree, AST is a tree data structure which stores various token as it nodes, such that it can represent the code in an abstract way in memory. 
