@@ -29,7 +29,7 @@
 
 
 - [Contributors](con)
- [Acknowledgements and Resources](#acknowledgements-and-resources)
+- [Acknowledgements and Resources](#acknowledgements-and-resources)
 - [Detail documentation](#detail-documentation)
 
 -----
