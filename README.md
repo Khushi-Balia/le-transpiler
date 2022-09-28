@@ -42,7 +42,7 @@ To put it down simply, a transpiler has the following phases
 - Code generation
 ----
 ## implementation details of transpiler
--Lexal Analysis by using flex (process known as lexing)
+- Lexal Analysis by using flex (process known as lexing)
 - syntax analysis by using bison (process known as parsing )
 - AST(Abstract  Syntax Tree)
 - code generation
