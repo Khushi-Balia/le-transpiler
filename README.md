@@ -18,7 +18,7 @@
 ---
 ## Table of contents 
 ---
-- [About the project](#about-the-project)
+- [About our project](#about-the-project)
 - [Implementation details of pylox](#implementation-details-of-pylox)
   - [Lexical analyser](#lexical-analyser)
   - [Parser](#parser)
@@ -44,27 +44,35 @@ To put it down simply, a transpiler has the following phases
 - Code generation
 ----
 ## implementation details of transpiler
+-Lexal Analysis by using flex (process known as lexing)
+- syntax analysis by using bison (process known as parsing )
+- AST(AbstraCT  Syntax Tree)
+- code generation
 
-![working](https://mukulrathi.com/static/ca3e949e7c8ee94b4d006715236ae6cf/a7a53/parsing-overview.png)
+
 ------
 ---
-### Lexical analyser
-This is the simplest step. Given our grammar, we need to break down our input into a list of known tokens. As mentioned before, our grammar has tokens, namely, identifiers, numbers (integers and floats), the mathematical operators, parentheses, braces, keywords, etc.
+### 1) **LEXING**
+- Also known as tokenization , it converts a sequence of characters (string) to lexemes 
+- These lexemes passes through lexer and it gives us tokens
+- These tokens are then send forward to use in parsing 
+- These tokens are defined in [lexer.l](https://github.com/Khushi-Balia/le-transpiler/blob/main/src/lexer.l),
 
-This step basically reads from the input files, and generates tokens in the flex file. The tokens are defined in [lexer.l](https://github.com/Khushi-Balia/le-transpiler/blob/main/src/lexer.l), and the actions that need to be taken after detecting a token is specified in this file itself. For example, if it finds, "int" in the input file, lexer will return a token say KW_INT to the parser.
-
-
+![LEXER](https://qph.cf2.quoracdn.net/main-qimg-bd68eda594e9d8d081b4deafe9b9e092-lq)
 ----
 
 
 ---
-### Parser
-This is the most challenging part. We need to parse the list of tokens that we received from lexical analyzer, and evaluate these using language grammar to make sense of the tokens. The language grammar is defined in a bison file named [parser.y](https://github.com/Khushi-Balia/le-transpiler/blob/main/src/parser.y).
 
-After this step, we do semantic parsing whose result is an abstract syntax tree, AST is a tree data structure which stores various token as it nodes, such that it can represent the code in an abstract way in memory. AST is what represents our language in memory, AST related functions are defined in [ast.c](https://github.com/Khushi-Balia/le-transpiler/blob/main/src/ast.c)
-
-![parser](https://ruslanspivak.com/lsbasi-part7/lsbasi_part7_ast_01.png)
+## 2) **PARSING**
+- Tokens are passed thorugh the parser and resulting in [parse tree ](https://en.wikipedia.org/wiki/Parse_tree  " parse tree ")
+- In parse tree , after getting rid of extra comment or other syntactic stuff is present it is passed through AST
+- The language grammar is defined in a bison file named [parser.y](https://github.com/Khushi-Balia/le-transpiler/blob/main/src/parser.y).
 ----
+>After this step, we do semantic parsing whose result is an abstract syntax tree, AST is a tree data structure which stores various token as it nodes, such that it can represent the code in an abstract way in memory. 
+>
+>AST is what represents our language in memory, AST related functions are defined in [ast.c](https://github.com/Khushi-Balia/le-transpiler/blob/main/src/ast.c)
+![AST](https://vinaytech.files.wordpress.com/2008/10/img21.png " AST " )
 
 ----
 ### Code printer
