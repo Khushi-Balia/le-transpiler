@@ -30,7 +30,7 @@
 
 - [Contributors](con)
  [Acknowledgements and Resources](#acknowledgements-and-resources)
-* [Detail documentation](#detail-documentation)
+- [Detail documentation](#detail-documentation)
 
 -----
 ## About the Project
@@ -93,7 +93,7 @@ Please refer to this language reference [PYLOX](https://github.com/Khushi-Balia/
 ----
 ## Contributors
 
-* [Khushi balia](https://github.com/Khushi-Balia) * [Rajat kaushik](https://github.com/rajatkaush11)
+* [Khushi balia](https://github.com/Khushi-Balia)  [Rajat kaushik](https://github.com/rajatkaush11)
 
 
 ---
