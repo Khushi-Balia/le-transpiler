@@ -57,42 +57,25 @@ To put it down simply, a transpiler has the following phases
 >Extention of a lex program is .l
 - These tokens are defined in [lexer.l](https://github.com/Khushi-Balia/le-transpiler/blob/main/src/lexer.l),
 
-##### EXAMPLE OF LEX PROGRAM :-
+### THREE COMPONENT OF LEXICAL CODE 
+
+1) DEFINITION 
+2) RULES
+3) USER CODE 
+___
+
+#### GENERAL SYNTAX OF LEXICAL ANALYZES 
+
 ```
-    int count = 0;
-    int ctl= 0;
+%{
+    //definitions
 %}
-
-
+   
+%%
+    // rules
 %%
 
-[a-z] {printf("%s lowercase \n", yytext); ctl++ ;}
-[A-Z] {printf("%s upercase \n", yytext ); count++ ;}
-"+"   {printf("%s PLUS \n", yytext);}
-"-"   {printf("%s SUBT\n", yytext);}
-"*"   {printf("%s MULPYn", yytext);}
-"/"   {printf("%s DIV\n", yytext);}
-
-
-
-
-. {}
-
-\n    {return 0;}
-%%
-
-yywrap()
-{
-
-
-}
-
-int main(){
-    
-yylex();
-
-return 0;
-}
+user code section //intmain()
 ```
 
 ![LEXER](https://qph.cf2.quoracdn.net/main-qimg-bd68eda594e9d8d081b4deafe9b9e092-lq)
