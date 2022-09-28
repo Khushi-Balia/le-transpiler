@@ -24,15 +24,13 @@
   - [Parser](#parser)
   - [Code printer](#code-printer)
   - [Language Reference](#language-reference)
+  - [Third party apps used](#third-party-apps-used)
 - [Examples](#examples)
-- [Building from source](#building-from-source)
-  - [Dependencies](#dependencies)
-  - [Build](#build)
-  - [Install](#install)
+
 
 - [Contributors](con)
  [Acknowledgements and Resources](#acknowledgements-and-resources)
-* [License](#license)
+* [Detail documentation](#detail-documentation)
 
 -----
 ## About the Project
@@ -87,19 +85,16 @@ To put it down simply, a transpiler has the following phases
 The next step in a compiler is to naturally take this AST and turn it into code. This means converting each semantic node into equivalent C code in this case. This code printer is defined in   [code_printer.c](https://github.com/Khushi-Balia/le-transpiler/blob/main/src/code_printer.c)
 
 ## Language Reference
-Please refer to this language reference [page](https://github.com/Khushi-Balia/le-transpiler/blob/main/Inspired%20by%20Python%20%2B%20Lox%20%2B%20JS%20language%20-%20PYLOX%20-%20Inspired%20by%20Python%20%2B%20Lox%20.pdf)
-
-----
-## Building from source
-### Dependencies
-* flex
-* bison
-### build 
-### install
+Please refer to this language reference [PYLOX](https://github.com/Khushi-Balia/le-transpiler/blob/main/Inspired%20by%20Python%20%2B%20Lox%20%2B%20JS%20language%20-%20PYLOX%20-%20Inspired%20by%20Python%20%2B%20Lox%20.pdf)
+## Third party apps used 
+- klib
+- vex 
+>More details on third party apps are present in the resources section 
 ----
 ## Contributors
-* [Khushi balia](https://github.com/Khushi-Balia)
-* [Rajat kaushik](https://github.com/rajatkaush11)
+
+* [Khushi balia](https://github.com/Khushi-Balia) * [Rajat kaushik](https://github.com/rajatkaush11)
+
 
 ---
 ## Acknowledgements and Resources
@@ -110,9 +105,13 @@ Please refer to this language reference [page](https://github.com/Khushi-Balia/l
 - [third party apps]()
     - [vex](https://github.com/rxi/vec)
     - [ klib](https://github.com/attractivechaos/klib)
+    - 
 - [Khushi's notes](https://github.com/rajatkaush11/le-transpiler/tree/develop-khushi)
 
 - [Rajat's notes](https://github.com/rajatkaush11/le-transpiler/tree/develop-rajat)
 ---
-## License 
+## Detail documentation
+
+----
+
 
