@@ -25,8 +25,11 @@
   - [Code printer](#code-printer)
   - [Language Reference](#language-reference)
   - [Third party apps used](#third-party-apps-used)
-- [Examples](#examples)
-
+  - [cmake](#cmake)
+  - [build](#build)
+  - [generating temp.c file](#generating-temp.c-file)
+  - [compiling through make](#compiling-through-make)
+  
 
 - [Contributors](con)
 - [Acknowledgements and Resources](#acknowledgements-and-resources)
@@ -165,7 +168,7 @@ A temp.c file will be generate in your tmp folder in the computer as we have men
 <img src="/images/15.png" alt="drawing" width="500"/>
 
 ----
-## compiling source code using make 
+## compiling through make 
 Lets try to compile our source code using make 
 make a ``` make ``` file in your tmp 
 ```
