@@ -155,13 +155,14 @@ cat pylox.test
 ```
 Using this cat you can view the content you have wriiten in the text editor 
 
-<img src="/images/14.png" alt="drawing" width="500"/>
 
 
 write your code in your syntax 
 ```
 ./le-transpiler pylox.test
 ```
+<img src="/images/14.png" alt="drawing" width="500"/>
+
 
 A temp.c file will be generate in your tmp folder in the computer as we have mention while doing file handling in code printer
 
