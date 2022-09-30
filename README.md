@@ -1,6 +1,6 @@
 <br />
 <p align ="center">
-  <a href="https://github.com/VedantParanjape/simpPRU">
+  <a href="transpiler">
     <img src="/images/PYLOX-1(1).png" alt="Logo" width="400" height="400">
   </a>
 </p>
@@ -114,6 +114,22 @@ Please refer to this language reference [PYLOX](https://github.com/Khushi-Balia/
 - vex 
 >More details on third party apps are present in the resources section 
 ----
+## Build
+```
+clone https://github.com/Khushi-Balia/le-transpiler
+```
+Then make a directory build 
+```
+mkdir build
+cd build
+cmake .. 
+```
+![cmake](/images/1.png)
+```
+cmake --build
+make
+```
+![build(/images/12.png)]
 ## Contributors
 
 * [Khushi balia](https://github.com/Khushi-Balia)  [Rajat kaushik](https://github.com/rajatkaush11)
