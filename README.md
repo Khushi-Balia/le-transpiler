@@ -7,7 +7,7 @@
 
 # **LE TRANSPILER**
 - The main aim of our project is to convert our custom syntax pylox to an equivalent C code using a toy compiler.
-## What is a **TRANSPILER**?
+### What is a **TRANSPILER**?
 - A transpiler is a source-to-source translator, converting one source code to another.
 ------------
 ### What is the difference between a compiler and a Transpiler?
@@ -33,7 +33,7 @@
 
 - [Contributors](con)
 - [Acknowledgements and Resources](#acknowledgements-and-resources)
-- [Detail documentation](#detail-documentation)
+- [Detailed documentation](#detail-documentation)
 
 -----
 ## About the Project
@@ -187,7 +187,7 @@ make
 ---
 ## Acknowledgements and Resources
 * [SRA-VJTI for providing this wonderful opportunity](https://sravjti.in/) Eklavya 2021 
-* Special thanks to [Krishna Narayanan](https://github.com/Krishna-13-cyber)
+* Special thanks to our mentor [Krishna Narayanan](https://github.com/Krishna-13-cyber) for his guidance throughout this project
 - [Repo referred](https://github.com/VedantParanjape/simpPRU/tree/master/src)
 - [Lexer-parser code ](https://www.youtube.com/watch?v=eF9qWbuQLuw)
 - [How to use markdown file](https://youtu.be/bpdvNwvEeSE)
@@ -197,11 +197,11 @@ make
 - [Third party apps]()
     - [vec](https://github.com/rxi/vec)
     - [klib](https://github.com/attractivechaos/klib)
-    - 
+    
 - [Khushi's notes](https://github.com/rajatkaush11/le-transpiler/tree/develop-khushi)
 
 - [Rajat's notes](https://github.com/rajatkaush11/le-transpiler/tree/develop-rajat)
 ---
-## Detail documentation
+## Detailed documentation
 
 ----
