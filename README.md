@@ -129,7 +129,7 @@ cmake ..
 cmake --build
 make
 ```
-![build(/images/12.png)]
+![build](/images/12.png)
 ## Contributors
 
 * [Khushi balia](https://github.com/Khushi-Balia)  [Rajat kaushik](https://github.com/rajatkaush11)
