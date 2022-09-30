@@ -47,7 +47,6 @@ To put it down simply, a transpiler has the following phases
 - AST(Abstract  Syntax Tree)
 - code generation
 
-![working](https://www.summaryplanet.com/information-technology/Principles-of-compiler-design_clip_image052.jpg)
 
 ------
 ---
@@ -116,6 +115,8 @@ Please refer to this language reference [PYLOX](https://github.com/Khushi-Balia/
 >More details on third party apps are present in the resources section 
 ----
 ## CMake
+CMake can generate a native build environment that will compile source code, create libraries and build executables in arbitrary combinations.
+you can have a look how we have written our [cmake](https://github.com/Khushi-Balia/le-transpiler/blob/main/CMakeLists.txt)
 
 ## Build
 ```
@@ -127,12 +128,59 @@ mkdir build
 cd build
 cmake .. 
 ```
-![cmake](/images/1.png)
+<img src="/images/1.png" alt="drawing" width="500"/>
+
 ```
 cmake --build
 make
+
 ```
-![build](/images/12.png)
+<img src="/images/12.png" alt="drawing" width="500"/>
+
+## Generating temp.c file
+open a terminal in bin folder
+```
+nano pylox.test
+```
+This will open a text editor 
+
+<img src="/images/14.png" alt="drawing" width="500"/>
+
+
+```
+cat pylox.test
+```
+using this cat you can view he content you have wriiten in the text editor 
+
+<img src="/images/13.png" alt="drawing" width="500"/>
+
+
+write your code in your syntax 
+```
+./le-transpiler pylox.test
+```
+
+A temp.c file will be generate in your tmp folder in the computer as we have mention while doing file handling in code printer
+
+<img src="/images/15.png" alt="drawing" width="500"/>
+
+----
+## compiling source code using make 
+Lets try to compile our source code using make 
+make a ``` make ``` file in your tmp 
+```
+cd tmp 
+make
+gcc -c temp.c
+gcc temp.o -o final
+./final
+```
+
+<img src="/images/133.png" alt="drawing" width="500"/>
+
+
+
+
 ## Contributors
 
 * [Khushi balia](https://github.com/Khushi-Balia)  [Rajat kaushik](https://github.com/rajatkaush11)
