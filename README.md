@@ -153,7 +153,7 @@ This will open a text editor
 ```
 cat pylox.test
 ```
-using this cat you can view he content you have wriiten in the text editor 
+Using this cat you can view the content you have wriiten in the text editor 
 
 <img src="/images/13.png" alt="drawing" width="500"/>
 
