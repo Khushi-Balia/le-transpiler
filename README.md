@@ -173,8 +173,7 @@ make
 ./final
 ```
 
-
-
+<img src="/images/final1.gif" alt="drawing" width="500"/>
 
 
 ## Contributors
