@@ -6,12 +6,12 @@
 </p>
 
 # **LE TRANSPILER**
-- Main aim of our project is to convert a custom synatx to a c code using a toy compiler .
-## What is a **TRANSPILER** ?
-- Transpiler is basically a source to source translator.
+- The main aim of our project is to convert a custom syntax to a c code using a toy compiler.
+## What is a **TRANSPILER**?
+- Transpiler is a source-to-source translator.
 ------------
-### Q) what is difference between a compiler and a transpiler ?
-- A compiler converts a high level language to low level language whereas in a transpiler , it converts a high level language to another high level language 
+### Q) what is the difference between a compiler and a Transpiler?
+- A compiler converts a high-level language to a low-level language whereas, a Transpiler, converts a high-level language to another high-level language 
 ----------
 
 
@@ -40,20 +40,20 @@
 >Converts custom code (PYLOX) to C code, using flex and bison, 
 
 To put it down simply, a transpiler has the following phases
-- Lexal Analysis (Lexing)
+- Lexical Analysis (Lexing)
 - Syntax Analysis (Parsing)
 - Code generation
 ----
 ## implementation details of transpiler
 ---
 ### 1) **LEXING**
-- Also known as tokenization , it converts a sequence of characters (string) to lexemes 
-- These lexemes passes through lexer and it gives us tokens
-- These tokens are then send forward to use in parsing 
+- Also known as tokenization, it converts a sequence of characters (string) to lexemes 
+- These lexemes pass through the lexer and it gives us tokens
+- These tokens are then sent forward to use in parsing 
 >Extention of a lex program is .l
 - These tokens are defined in [lexer.l](https://github.com/Khushi-Balia/le-transpiler/blob/main/src/lexer.l),
 
-### THREE COMPONENT OF LEXICAL CODE 
+### THREE COMPONENTS OF LEXICAL CODE 
 
 1) DEFINITION 
 2) RULES
@@ -85,16 +85,16 @@ user code section //intmain()
 
 - The tokens we get after lexing, are passed through the parser
 - On receiving the tokens, it forms a parse tree using it[parse tree ](https://en.wikipedia.org/wiki/Parse_tree  " parse tree ")
-- This parse tree is simplified, removing all the extra, syntactic stuff, to give the AST (Abstract Synatx tree)
+- This parse tree is simplified, removing all the extra, syntactic stuff, to give the AST (Abstract Syntax tree)
 - Thus, we can say, AST is a compact version of the parse tree
 - The grammar of the code is set using bison
 >Extention of a parser program is .y
 
-- In parse tree , after getting rid of extra comment or other syntactic stuff is present it is passed through AST
+- In parse tree, after getting rid of the extra comment or other syntactic stuff is present it is passed through AST
 >So the conversion of the tokens to AST is called parsing
-- The language grammar is defined in a bison file named [parser.y](https://github.com/Khushi-Balia/le-transpiler/blob/main/src/parser.y).
+- The language grammar is defined in a bison file named [parser. y](https://github.com/Khushi-Balia/le-transpiler/blob/main/src/parser.y).
 ----
->After this step, we do semantic parsing whose result is an abstract syntax tree, AST is a tree data structure which stores various token as it nodes, such that it can represent the code in an abstract way in memory. 
+>After this step, we do semantic parsing whose result is an abstract syntax tree, AST is a tree data structure that stores various tokens as its nodes, such that it can abstractly represent the code in memory. 
 >
 >AST is what represents our language in memory, AST related functions are defined in [ast.c](https://github.com/Khushi-Balia/le-transpiler/blob/main/src/ast.c)
 ![AST](https://vinaytech.files.wordpress.com/2008/10/img21.png " AST " )
@@ -105,14 +105,14 @@ The next step in a compiler is to naturally take this AST and turn it into code.
 
 ## Language Reference
 Please refer to this language reference [PYLOX](https://github.com/Khushi-Balia/le-transpiler/blob/main/Inspired%20by%20Python%20%2B%20Lox%20%2B%20JS%20language%20-%20PYLOX%20-%20Inspired%20by%20Python%20%2B%20Lox%20.pdf)
-## Third party apps used 
+## Third-party apps used 
 - klib
 - vex 
->More details on third party apps are present in the resources section 
+>More details on third-party apps are present in the resources section 
 ----
 ## CMake
 CMake can generate a native build environment that will compile source code, create libraries and build executables in arbitrary combinations.
-you can have a look how we have written our [cmake](https://github.com/Khushi-Balia/le-transpiler/blob/main/CMakeLists.txt)
+you can have a look at how we have written our [cmake](https://github.com/Khushi-Balia/le-transpiler/blob/main/CMakeLists.txt)
 
 ## Build
 ```
@@ -122,7 +122,7 @@ Then make a directory build
 ```
 mkdir build
 cd build
-cmake .. 
+cmake ..
 ```
 <img src="/images/n1.png" alt="drawing" width="500"/>
 
@@ -134,7 +134,7 @@ make
 <img src="/images/n2.png" alt="drawing" width="500"/>
 
 ## Generating temp.c file
-open a terminal in bin folder
+open a terminal in the bin folder
 ```
 nano pylox.test
 ```
@@ -146,7 +146,7 @@ This will open a text editor
 ```
 cat pylox.test
 ```
-Using this cat you can view the content you have wriiten in the text editor 
+Using this cat you can view the content you have written in the text editor 
 
 
 
@@ -157,13 +157,13 @@ write your code in your syntax
 <img src="/images/n3.png" alt="drawing" width="500"/>
 
 
-A temp.c file will be generate in your tmp folder in the computer as we have mention while doing file handling in  [code_printer.c](https://github.com/Khushi-Balia/le-transpiler/blob/main/src/code_printer.c)
+A temp. c file will be generate in your tmp folder in the computer as we have mentioned while doing file handling in  [code_printer.c](https://github.com/Khushi-Balia/le-transpiler/blob/main/src/code_printer.c)
 
 <img src="/images/n4.png" alt="drawing" width="500"/>
 
 ----
 ## compiling through make 
-Lets try to compile our source code using make 
+Let’s try to compile our source code using make 
 make a ``` make ``` file in your tmp 
 ```
 cd tmp 
@@ -203,5 +203,3 @@ make
 ## Detail documentation
 
 ----
-
-
