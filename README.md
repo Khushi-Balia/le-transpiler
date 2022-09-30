@@ -166,8 +166,8 @@ A temp. c file will be generate in your tmp folder in the computer that we have 
 ----
 ## Compiling using make 
 
-Compile the generated source code using make 
-make a ``` makefile ```  in your tmp folder
+Compile the generated source code. 
+Make a ``` makefile ```  in your tmp folder
 ```
 cd tmp 
 make
