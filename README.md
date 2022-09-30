@@ -175,7 +175,7 @@ make
 ./final
 ```
 
-<img src="/images/final2.gif" alt="drawing" width="500"/>
+<img src="/images/final2.gif" alt="drawing"/>
 
 ----
 ## Contributors
