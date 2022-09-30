@@ -164,7 +164,7 @@ write your code in your syntax
 <img src="/images/14.png" alt="drawing" width="500"/>
 
 
-A temp.c file will be generate in your tmp folder in the computer as we have mention while doing file handling in code printer
+A temp.c file will be generate in your tmp folder in the computer as we have mention while doing file handling in  [code_printer.c](https://github.com/Khushi-Balia/le-transpiler/blob/main/src/code_printer.c)
 
 <img src="/images/15.png" alt="drawing" width="500"/>
 
