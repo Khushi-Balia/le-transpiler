@@ -46,7 +46,7 @@ To put it down simply, a transpiler has the following phases
 ----
 ## Implementation details of transpiler
 ---
-### 1) **LEXING**
+### 1) **Lexing**
 - Also known as tokenization, it converts a sequence of characters (string) to lexemes 
 - These lexemes pass through the lexer and it gives us tokens
 - These tokens are then sent forward to use in parsing 
