@@ -147,7 +147,7 @@ nano pylox.test
 ```
 This will open a text editor 
 
-<img src="/images/14.png" alt="drawing" width="500"/>
+<img src="/images/13.png" alt="drawing" width="500"/>
 
 
 ```
@@ -155,7 +155,7 @@ cat pylox.test
 ```
 Using this cat you can view the content you have wriiten in the text editor 
 
-<img src="/images/13.png" alt="drawing" width="500"/>
+<img src="/images/14.png" alt="drawing" width="500"/>
 
 
 write your code in your syntax 
