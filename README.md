@@ -25,10 +25,10 @@
   - [Code printer](#code-printer)
   - [Language Reference](#language-reference)
   - [Third party apps used](#third-party-apps-used)
-  - [cmake](#cmake)
-  - [build](#build)
-  - [generating temp.c file](#generating-temp.c-file)
-  - [compiling through make](#compiling-through-make)
+  - [Cmake](#cmake)
+  - [Build](#build)
+  - [Generating temp.c file](#generating-temp.c-file)
+  - [Compiling through make](#compiling-through-make)
   
 
 - [Contributors](con)
@@ -44,7 +44,7 @@ To put it down simply, a transpiler has the following phases
 - Syntax Analysis (Parsing)
 - Code generation
 ----
-## implementation details of transpiler
+## Implementation details of transpiler
 ---
 ### 1) **LEXING**
 - Also known as tokenization, it converts a sequence of characters (string) to lexemes 
@@ -107,7 +107,7 @@ The next step in a compiler is to naturally take this AST and turn it into code.
 Refer to this language reference [PYLOX](https://github.com/Khushi-Balia/le-transpiler/blob/main/Inspired%20by%20Python%20%2B%20Lox%20%2B%20JS%20language%20-%20PYLOX%20-%20Inspired%20by%20Python%20%2B%20Lox%20.pdf)
 ## Third-party apps used 
 - klib
-- vex 
+- vec
 >More details on third-party apps are present in the resources section 
 ----
 ## CMake
@@ -195,8 +195,8 @@ make
 - [Flex and Bison theory](https://aquamentus.com/flex_bison.html)
 
 - [Third party apps]()
-    - [vex](https://github.com/rxi/vec)
-    - [ klib](https://github.com/attractivechaos/klib)
+    - [vec](https://github.com/rxi/vec)
+    - [klib](https://github.com/attractivechaos/klib)
     - 
 - [Khushi's notes](https://github.com/rajatkaush11/le-transpiler/tree/develop-khushi)
 
