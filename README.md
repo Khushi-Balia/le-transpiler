@@ -6,12 +6,12 @@
 </p>
 
 # **LE TRANSPILER**
-- Basic aim of our project is to convert a custom synatx to a c code using a toy compiler what is flex token generation
+- Main aim of our project is to convert a custom synatx to a c code using a toy compiler .
 ## What is a **TRANSPILER** ?
 - Transpiler is basically a source to source translator.
 ------------
 ### Q) what is difference between a compiler and a transpiler ?
-- Basically a compiler converts a high level language to low level language whereas in a transpiler , it converts a high level language to another high level language 
+- A compiler converts a high level language to low level language whereas in a transpiler , it converts a high level language to another high level language 
 ----------
 
 
