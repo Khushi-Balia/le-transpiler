@@ -47,6 +47,7 @@ To put it down simply, a transpiler has the following phases
 - AST(Abstract  Syntax Tree)
 - code generation
 
+![working](https://www.summaryplanet.com/information-technology/Principles-of-compiler-design_clip_image052.jpg)
 
 ------
 ---
@@ -114,6 +115,8 @@ Please refer to this language reference [PYLOX](https://github.com/Khushi-Balia/
 - vex 
 >More details on third party apps are present in the resources section 
 ----
+## CMake
+
 ## Build
 ```
 clone https://github.com/Khushi-Balia/le-transpiler
