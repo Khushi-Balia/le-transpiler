@@ -10,7 +10,7 @@
 ## What is a **TRANSPILER**?
 - Transpiler is a source-to-source translator.
 ------------
-### Q) what is the difference between a compiler and a Transpiler?
+### What is the difference between a compiler and a Transpiler?
 - A compiler converts a high-level language to a low-level language whereas, a Transpiler, converts a high-level language to another high-level language 
 ----------
 
@@ -84,7 +84,7 @@ user code section //intmain()
 
 
 - The tokens we get after lexing, are passed through the parser
-- On receiving the tokens, it forms a parse tree using it[parse tree ](https://en.wikipedia.org/wiki/Parse_tree  " parse tree ")
+- On receiving the tokens, it forms a [parse tree ](https://en.wikipedia.org/wiki/Parse_tree  " parse tree ") using it
 - This parse tree is simplified, removing all the extra, syntactic stuff, to give the AST (Abstract Syntax tree)
 - Thus, we can say, AST is a compact version of the parse tree
 - The grammar of the code is set using bison
@@ -92,7 +92,7 @@ user code section //intmain()
 
 - In parse tree, after getting rid of the extra comment or other syntactic stuff is present it is passed through AST
 >So the conversion of the tokens to AST is called parsing
-- The language grammar is defined in a bison file named [parser. y](https://github.com/Khushi-Balia/le-transpiler/blob/main/src/parser.y).
+- The language grammar is defined in a bison file named [parser.y](https://github.com/Khushi-Balia/le-transpiler/blob/main/src/parser.y).
 ----
 >After this step, we do semantic parsing whose result is an abstract syntax tree, AST is a tree data structure that stores various tokens as its nodes, such that it can abstractly represent the code in memory. 
 >
@@ -101,10 +101,10 @@ user code section //intmain()
 
 ----
 ### Code printer
-The next step in a compiler is to naturally take this AST and turn it into code. This means converting each semantic node into equivalent C code in this case. This code printer is defined in   [code_printer.c](https://github.com/Khushi-Balia/le-transpiler/blob/main/src/code_printer.c)
+The next step in a compiler is to naturally take this AST and turn it into code. This means converting each semantic node into equivalent C code in this case. This code printer is defined in [code_printer.c](https://github.com/Khushi-Balia/le-transpiler/blob/main/src/code_printer.c)
 
 ## Language Reference
-Please refer to this language reference [PYLOX](https://github.com/Khushi-Balia/le-transpiler/blob/main/Inspired%20by%20Python%20%2B%20Lox%20%2B%20JS%20language%20-%20PYLOX%20-%20Inspired%20by%20Python%20%2B%20Lox%20.pdf)
+Refer to this language reference [PYLOX](https://github.com/Khushi-Balia/le-transpiler/blob/main/Inspired%20by%20Python%20%2B%20Lox%20%2B%20JS%20language%20-%20PYLOX%20-%20Inspired%20by%20Python%20%2B%20Lox%20.pdf)
 ## Third-party apps used 
 - klib
 - vex 
@@ -112,8 +112,9 @@ Please refer to this language reference [PYLOX](https://github.com/Khushi-Balia/
 ----
 ## CMake
 CMake can generate a native build environment that will compile source code, create libraries and build executables in arbitrary combinations.
-you can have a look at how we have written our [cmake](https://github.com/Khushi-Balia/le-transpiler/blob/main/CMakeLists.txt)
+our [cmake code](https://github.com/Khushi-Balia/le-transpiler/blob/main/CMakeLists.txt)
 
+----
 ## Build
 ```
 clone https://github.com/Khushi-Balia/le-transpiler
@@ -133,6 +134,7 @@ make
 ```
 <img src="/images/n2.png" alt="drawing" width="500"/>
 
+----
 ## Generating temp.c file
 open a terminal in the bin folder
 ```
@@ -173,9 +175,9 @@ make
 ./final
 ```
 
-<img src="/images/final1.gif" alt="drawing" width="500"/>
+<img src="/images/final2.gif" alt="drawing" width="500"/>
 
-
+----
 ## Contributors
 
 * [Khushi balia](https://github.com/Khushi-Balia)        * [Rajat kaushik](https://github.com/rajatkaush11)
