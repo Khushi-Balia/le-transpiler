@@ -6,7 +6,7 @@
 </p>
 
 # **LE TRANSPILER**
-- The main aim of our project is to convert our custom syntax pylox to an equivalent C code using a toy compiler.
+- The main aim of our project is to convert our custom syntax, pylox, to an equivalent C code using a toy compiler.
 ### What is a **TRANSPILER**?
 - A transpiler is a source-to-source translator, converting one source code to another.
 ------------
@@ -53,14 +53,14 @@ To put it down simply, a transpiler has the following phases
 >Extention of a lex program is .l
 - These tokens are defined in [lexer.l](https://github.com/Khushi-Balia/le-transpiler/blob/main/src/lexer.l),
 
-### THREE COMPONENTS OF LEXICAL CODE 
+### Three components of a lexical code
 
 1) DEFINITION 
 2) RULES
 3) USER CODE 
 ___
 
-#### GENERAL SYNTAX OF LEXICAL ANALYZES 
+#### General Synatx of a lexer code 
 
 ```
 %{
@@ -100,7 +100,7 @@ user code section //intmain()
 ![AST](https://vinaytech.files.wordpress.com/2008/10/img21.png " AST " )
 
 ----
-### Code printer
+### 3) **Code printer**
 The next step in a compiler is to naturally take this AST and turn it into code. This means converting each semantic node into equivalent C code in this case. This code printer is defined in [code_printer.c](https://github.com/Khushi-Balia/le-transpiler/blob/main/src/code_printer.c)
 
 ## Language Reference
@@ -111,7 +111,7 @@ Refer to this language reference [PYLOX](https://github.com/Khushi-Balia/le-tran
 >More details on third-party apps are present in the resources section 
 ----
 ## CMake
-CMake can generate a native build environment that will compile source code, create libraries and build executables in arbitrary combinations.
+CMake can generate a native build environment that will compile the source code, create libraries and build executables in arbitrary combinations.
 Our [cmake code](https://github.com/Khushi-Balia/le-transpiler/blob/main/CMakeLists.txt)
 
 ----
@@ -159,7 +159,7 @@ Write your code in your syntax
 <img src="/images/n3.png" alt="drawing" width="500"/>
 
 
-A temp. c file will be generate in your tmp folder in the computer that we have specified in file handling in  [code_printer.c](https://github.com/Khushi-Balia/le-transpiler/blob/main/src/code_printer.c)
+A temp.c file will be generate in your tmp folder in the computer,tas mentioned in the file handling in  [code_printer.c](https://github.com/Khushi-Balia/le-transpiler/blob/main/src/code_printer.c)
 
 <img src="/images/n4.png" alt="drawing" width="500"/>
 
