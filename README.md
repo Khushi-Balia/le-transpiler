@@ -6,12 +6,12 @@
 </p>
 
 # **LE TRANSPILER**
-- The main aim of our project is to convert a custom syntax to a c code using a toy compiler.
+- The main aim of our project is to convert our custom syntax pylox to an equivalent C code using a toy compiler.
 ## What is a **TRANSPILER**?
-- Transpiler is a source-to-source translator.
+- A transpiler is a source-to-source translator, converting one source code to another.
 ------------
 ### What is the difference between a compiler and a Transpiler?
-- A compiler converts a high-level language to a low-level language whereas, a Transpiler, converts a high-level language to another high-level language 
+- A compiler converts a high-level language to a low-level language whereas, a transpiler, converts a high-level language to another high-level language 
 ----------
 
 
@@ -112,14 +112,14 @@ Refer to this language reference [PYLOX](https://github.com/Khushi-Balia/le-tran
 ----
 ## CMake
 CMake can generate a native build environment that will compile source code, create libraries and build executables in arbitrary combinations.
-our [cmake code](https://github.com/Khushi-Balia/le-transpiler/blob/main/CMakeLists.txt)
+Our [cmake code](https://github.com/Khushi-Balia/le-transpiler/blob/main/CMakeLists.txt)
 
 ----
 ## Build
 ```
-clone https://github.com/Khushi-Balia/le-transpiler
+git clone https://github.com/Khushi-Balia/le-transpiler
 ```
-Then make a directory build 
+Then make a directory named **build** 
 ```
 mkdir build
 cd build
@@ -136,7 +136,7 @@ make
 
 ----
 ## Generating temp.c file
-open a terminal in the bin folder
+Open a terminal in the bin folder
 ```
 nano pylox.test
 ```
@@ -152,21 +152,22 @@ Using this cat you can view the content you have written in the text editor
 
 
 
-write your code in your syntax 
+Write your code in your syntax 
 ```
 ./le-transpiler pylox.test
 ```
 <img src="/images/n3.png" alt="drawing" width="500"/>
 
 
-A temp. c file will be generate in your tmp folder in the computer as we have mentioned while doing file handling in  [code_printer.c](https://github.com/Khushi-Balia/le-transpiler/blob/main/src/code_printer.c)
+A temp. c file will be generate in your tmp folder in the computer that we have specified in file handling in  [code_printer.c](https://github.com/Khushi-Balia/le-transpiler/blob/main/src/code_printer.c)
 
 <img src="/images/n4.png" alt="drawing" width="500"/>
 
 ----
-## compiling through make 
-Let’s try to compile our source code using make 
-make a ``` make ``` file in your tmp 
+## Compiling using make 
+
+Compile the generated source code using make 
+make a ``` makefile ```  in your tmp folder
 ```
 cd tmp 
 make
@@ -187,13 +188,13 @@ make
 ## Acknowledgements and Resources
 * [SRA-VJTI for providing this wonderful opportunity](https://sravjti.in/) Eklavya 2021 
 * Special thanks to [Krishna Narayanan](https://github.com/Krishna-13-cyber)
-- [repo to refer](https://github.com/VedantParanjape/simpPRU/tree/master/src)
-- [lexer parser code ](https://www.youtube.com/watch?v=eF9qWbuQLuw)
-- [how to use markdown file](https://youtu.be/bpdvNwvEeSE)
+- [Repo referred](https://github.com/VedantParanjape/simpPRU/tree/master/src)
+- [Lexer-parser code ](https://www.youtube.com/watch?v=eF9qWbuQLuw)
+- [How to use markdown file](https://youtu.be/bpdvNwvEeSE)
 - [Github tut](https://youtu.be/uaeKhfhYE0U)
-- [flex and bison theory](https://aquamentus.com/flex_bison.html)
+- [Flex and Bison theory](https://aquamentus.com/flex_bison.html)
 
-- [third party apps]()
+- [Third party apps]()
     - [vex](https://github.com/rxi/vec)
     - [ klib](https://github.com/attractivechaos/klib)
     - 
