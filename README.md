@@ -186,7 +186,7 @@ gcc temp.o -o final
 
 ## Contributors
 
-* [Khushi balia](https://github.com/Khushi-Balia)        [Rajat kaushik](https://github.com/rajatkaush11)
+* [Khushi balia](https://github.com/Khushi-Balia)        * [Rajat kaushik](https://github.com/rajatkaush11)
 
 
 ---
