@@ -193,8 +193,12 @@ gcc temp.o -o final
 ## Acknowledgements and Resources
 * [SRA-VJTI for providing this wonderful opportunity](https://sravjti.in/) Eklavya 2021 
 * Special thanks to [Krishna Narayanan](https://github.com/Krishna-13-cyber)
-- https://github.com/VedantParanjape/simpPRU/tree/master/src
+- [repo to refer](https://github.com/VedantParanjape/simpPRU/tree/master/src)
+- [lexer parser code ](https://www.youtube.com/watch?v=eF9qWbuQLuw)
+- [how to use markdown file](https://youtu.be/bpdvNwvEeSE)
+- [Github tut](https://youtu.be/uaeKhfhYE0U)
 - [flex and bison theory](https://aquamentus.com/flex_bison.html)
+
 - [third party apps]()
     - [vex](https://github.com/rxi/vec)
     - [ klib](https://github.com/attractivechaos/klib)
