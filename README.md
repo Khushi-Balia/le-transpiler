@@ -140,7 +140,7 @@ nano pylox.test
 ```
 This will open a text editor 
 
-<img src="/images/n3.png" alt="drawing" width="500"/>
+<img src="/images/n5.png" alt="drawing" width="500"/>
 
 
 ```
@@ -154,12 +154,12 @@ write your code in your syntax
 ```
 ./le-transpiler pylox.test
 ```
-<img src="/images/n4.png" alt="drawing" width="500"/>
+<img src="/images/n3.png" alt="drawing" width="500"/>
 
 
 A temp.c file will be generate in your tmp folder in the computer as we have mention while doing file handling in  [code_printer.c](https://github.com/Khushi-Balia/le-transpiler/blob/main/src/code_printer.c)
 
-<img src="/images/n5.png" alt="drawing" width="500"/>
+<img src="/images/n4.png" alt="drawing" width="500"/>
 
 ----
 ## compiling through make 
