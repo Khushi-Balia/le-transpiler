@@ -43,6 +43,10 @@ To put it down simply, a transpiler has the following phases
 - Lexical Analysis (Lexing)
 - Syntax Analysis (Parsing)
 - Code generation
+
+<img src="/images/flowchart.png" alt="drawing" width="500"/>
+
+
 ----
 ## Implementation details of transpiler
 ---
