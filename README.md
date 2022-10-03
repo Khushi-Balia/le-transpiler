@@ -44,7 +44,7 @@ To put it down simply, a transpiler has the following phases
 - Syntax Analysis (Parsing)
 - Code generation
 
-<img src="/images/flowchart.png" alt="drawing" width="500"/>
+<img src="/images/flowchart.PNG" alt="drawing" width="500"/>
 
 
 ----
