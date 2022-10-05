@@ -16,21 +16,19 @@
 ## Table of contents 
 ---
 - [About our project](#about-the-project)
-- [Implementation details of pylox](#implementation-details-of-pylox)
+- [Implementation details of transpiler](#implementation-details-of-transpiler)
   - [Lexical analyser](#lexical-analyser)
-  - [Parser](#parser)
+  - [Parsing](#parsing)
   - [Code printer](#code-printer)
   - [Language Reference](#language-reference)
   - [Third party apps used](#third-party-apps-used)
   - [Cmake](#cmake)
   - [Build](#build)
-  - [Generating temp.c file](#generating-temp.c-file)
-  - [Compiling through make](#compiling-through-make)
+  - [Compiling using make](#compiling-using-make)
   
 
 - [Contributors](con)
 - [Acknowledgements and Resources](#acknowledgements-and-resources)
-- [Detailed documentation](#detail-documentation)
 
 -----
 ## About the Project
@@ -47,7 +45,7 @@ To put it down simply, a transpiler has the following phases
 
 ## Implementation details of transpiler
 ---
-### 1) **Lexing**
+##  **Lexical analyser**
 - Also known as tokenization, it converts a sequence of characters (string) to lexemes 
 - These lexemes pass through the lexer and it gives us tokens
 - These tokens are then sent forward to use in parsing 
@@ -81,7 +79,7 @@ user code section //intmain()
 
 ---
 
-### 2) **Parsing**
+##  **parsing**
 
 
 - The tokens we get after lexing, are passed through the parser
@@ -101,7 +99,7 @@ user code section //intmain()
 ![AST](https://vinaytech.files.wordpress.com/2008/10/img21.png " AST " )
 
 ----
-### 3) **Code printer**
+## **Code printer**
 The next step in a compiler is to naturally take this AST and turn it into code. This means converting each semantic node into equivalent C code in this case. This code printer is defined in [code_printer.c](https://github.com/Khushi-Balia/le-transpiler/blob/main/src/code_printer.c)
 
 ## Language Reference
@@ -136,8 +134,11 @@ make
 <img src="/images/n2.png" alt="drawing" width="500"/>
 
 ----
+
 ## Generating temp.c file
+
 Open a terminal in the bin folder
+
 ```
 nano pylox.test
 ```
@@ -205,5 +206,4 @@ make
 ---
 ## Detailed documentation
 
-----
 ----
