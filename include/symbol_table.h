@@ -12,7 +12,8 @@
 #define DT_BOOL_ARR 6
 #define DT_CHAR_ARR 7
 #define DT_FLOAT_ 8
-#define DT_COMP_ 9
+#define DT_INTEGER_P 9
+#define DT_COMP_ 10
 
 
 typedef vec_t(struct symbol*) param;

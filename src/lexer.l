@@ -20,7 +20,7 @@
 braces               ("{"|"}")
 parenthesis          ("("|")")
 squares              ("["|"]")
-datatype             ("int"|"bool"|"char"|"float"|"complex")
+datatype             ("int"|"bool"|"char"|"float"|"complex"|"int*")
 math                 ("root"|"exponent"|"sin"|"cos"|"tan"|"log"|"COMPLEX")
 integer              ([0-9]+)
 floatn               ([0-9]*"."[0-9]+)
@@ -32,6 +32,7 @@ relational_operators (">"|">="|"<"|"<="|"=="|"!=")
 logical_operators    ("and"|"or"|"not")
 bitwise_operators    ("~"|"&"|"|"|"^"|">>"|"<<")
 arithmetic_operators ("+"|"-"|"*"|"/"|"%")
+ampercent            ([&])
 loops                ("for"|"while"|"break"|"continue"|"in")
 function             ("return"|"func"|"void")
 conditional          ("if"|"elif"|"else")
@@ -39,6 +40,7 @@ print                ("out")
 comma                ([,])
 assignment_operator  ([=])
 colon                ([:])
+   
 
 %%
 
@@ -104,6 +106,10 @@ colon                ([:])
   }
 }
 
+{ampercent}      {
+    return AMP;
+}
+
 {loops}            {
   if (!strcmp(yytext, "for"))
   {
@@ -150,6 +156,10 @@ colon                ([:])
   else if (!strcmp(yytext, "bool"))
   {
     return DT_BOOL;
+  }
+  else if (!strcmp(yytext, "int*"))
+  {
+    return DT_INT_P;
   }
   else if (!strcmp(yytext, "char"))
   {
@@ -418,6 +428,10 @@ colon                ([:])
     else if (yylval.symbol_handle != NULL && yylval.symbol_handle->data_type == DT_BOOL_ARR)
     {
       return BOOL_ARR_IDENTIFIER;
+    }
+    else if (yylval.symbol_handle != NULL && yylval.symbol_handle->data_type == DT_INTEGER_P)
+    {
+      return INT_P_IDENTIFIER;
     }
   }
 

@@ -52,8 +52,20 @@ ast_node_statements *create_statement_node(int node_type, void *child)
             stmt->child_nodes.print_string_function_call = child;
             break;
 
-        case AST_NODE_PRINT_EXP_FUNCTION_CALL:
-            stmt->child_nodes.print_expression_function_call = child;
+        case AST_NODE_PRINT_EXP_INT_FUNCTION_CALL:
+            stmt->child_nodes.print_expression_int_function_call = child;
+            break;
+
+        case AST_NODE_PRINT_EXP_FLOAT_FUNCTION_CALL:
+            stmt->child_nodes.print_expression_float_function_call = child;
+            break;
+
+        case AST_NODE_PRINT_EXP_COMPLEX_FUNCTION_CALL:
+            stmt->child_nodes.print_expression_complex_function_call = child;
+            break;
+
+        case AST_NODE_PRINT_EXP_INTP_FUNCTION_CALL:
+            stmt->child_nodes.print_expression_intp_function_call = child;
             break;
                     
         case AST_NODE_FUNC_RETURN:
@@ -376,11 +388,47 @@ ast_node_print_string_function_call *create_print_string_function_call_node(char
     return print_function_call;
 }
 
-ast_node_print_expression_function_call *create_print_expression_function_call_node(ast_node_expression *expression, int add_newline)
+ast_node_print_expression_int_function_call *create_print_expression_int_function_call_node(sym_ptr symbol, int add_newline)
 {
-    ast_node_print_expression_function_call *print_function_call = (ast_node_print_expression_function_call*)malloc(sizeof(ast_node_print_expression_function_call));
+    ast_node_print_expression_int_function_call *print_function_call = (ast_node_print_expression_int_function_call*)malloc(sizeof(ast_node_print_expression_int_function_call));
 
-    print_function_call->node_type = AST_NODE_PRINT_EXP_FUNCTION_CALL;
+    print_function_call->node_type = AST_NODE_PRINT_EXP_INT_FUNCTION_CALL;
+    print_function_call->add_newline = add_newline;
+    
+    print_function_call->symbol_entry = symbol;
+
+    return print_function_call;
+}
+
+ast_node_print_expression_float_function_call *create_print_expression_float_function_call_node(sym_ptr symbol, int add_newline)
+{
+    ast_node_print_expression_float_function_call *print_function_call = (ast_node_print_expression_float_function_call*)malloc(sizeof(ast_node_print_expression_float_function_call));
+
+    print_function_call->node_type = AST_NODE_PRINT_EXP_FLOAT_FUNCTION_CALL;
+    print_function_call->add_newline = add_newline;
+    
+    print_function_call->symbol_entry = symbol;
+
+    return print_function_call;
+}
+
+ast_node_print_expression_complex_function_call *create_print_expression_complex_function_call_node(sym_ptr symbol, int add_newline)
+{
+    ast_node_print_expression_complex_function_call *print_function_call = (ast_node_print_expression_complex_function_call*)malloc(sizeof(ast_node_print_expression_complex_function_call));
+
+    print_function_call->node_type = AST_NODE_PRINT_EXP_COMPLEX_FUNCTION_CALL;
+    print_function_call->add_newline = add_newline;
+    
+    print_function_call->symbol_entry = symbol;
+
+    return print_function_call;
+}
+
+ast_node_print_expression_intp_function_call *create_print_expression_intp_function_call_node(ast_node_expression *expression, int add_newline)
+{
+    ast_node_print_expression_intp_function_call *print_function_call = (ast_node_print_expression_intp_function_call*)malloc(sizeof(ast_node_print_expression_intp_function_call));
+
+    print_function_call->node_type = AST_NODE_PRINT_EXP_INTP_FUNCTION_CALL;
     print_function_call->add_newline = add_newline;
     
     print_function_call->expression = expression;
@@ -551,7 +599,19 @@ void ast_node_type(int node_type)
             printf("print_string function call");
             break;
 
-        case AST_NODE_PRINT_EXP_FUNCTION_CALL:
+        case AST_NODE_PRINT_EXP_INT_FUNCTION_CALL:
+            printf("print_expression function call");
+            break;
+
+        case AST_NODE_PRINT_EXP_FLOAT_FUNCTION_CALL:
+            printf("print_expression function call");
+            break;
+
+        case AST_NODE_PRINT_EXP_COMPLEX_FUNCTION_CALL:
+            printf("print_expression function call");
+            break;
+
+        case AST_NODE_PRINT_EXP_INTP_FUNCTION_CALL:
             printf("print_expression function call");
             break;
 

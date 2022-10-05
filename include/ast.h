@@ -74,7 +74,10 @@
 #define AST_MT_COMP 60
             
 #define AST_NODE_PRINT_STRING_FUNCTION_CALL 68
-#define AST_NODE_PRINT_EXP_FUNCTION_CALL    69
+#define AST_NODE_PRINT_EXP_INT_FUNCTION_CALL 69
+#define AST_NODE_PRINT_EXP_FLOAT_FUNCTION_CALL 70
+#define AST_NODE_PRINT_EXP_COMPLEX_FUNCTION_CALL 71
+#define AST_NODE_PRINT_EXP_INTP_FUNCTION_CALL 72
 
 typedef vec_t(struct ast_node*) ast_nodes;
 typedef vec_t(struct ast_node_statements*) ast_nodes_statements;
@@ -104,7 +107,10 @@ struct ast_node_param;
 struct ast_node_function_call;
 struct ast_node_arguments;
 struct ast_node_print_string_function_call;
-struct ast_node_print_expression_function_call;
+struct ast_node_print_expression_int_function_call;
+struct ast_node_print_expression_float_function_call;
+struct ast_node_print_expression_complex_function_call;
+struct ast_node_print_expression_intp_function_call;
 
 typedef struct ast_node ast_node;
 typedef struct ast_node_statements ast_node_statements;
@@ -128,7 +134,10 @@ typedef struct ast_node_param ast_node_param;
 typedef struct ast_node_function_call ast_node_function_call;
 typedef struct ast_node_arguments ast_node_arguments;
 typedef struct ast_node_print_string_function_call ast_node_print_string_function_call;
-typedef struct ast_node_print_expression_function_call ast_node_print_expression_function_call;
+typedef struct ast_node_print_expression_int_function_call ast_node_print_expression_int_function_call;
+typedef struct ast_node_print_expression_float_function_call ast_node_print_expression_float_function_call;
+typedef struct ast_node_print_expression_complex_function_call ast_node_print_expression_complex_function_call;
+typedef struct ast_node_print_expression_intp_function_call ast_node_print_expression_intp_function_call;
 
 struct ast_node 
 {
@@ -154,7 +163,11 @@ struct ast_node
         ast_node_expression *return_statement;
         ast_node_function_call *function_call;
         ast_node_print_string_function_call *print_string_function_call;
-        ast_node_print_expression_function_call *print_expression_function_call;
+        ast_node_print_expression_int_function_call *print_expression_int_function_call;
+        ast_node_print_expression_float_function_call *print_expression_float_function_call;
+        ast_node_print_expression_complex_function_call *print_expression_complex_function_call;
+        ast_node_print_expression_intp_function_call *print_expression_intp_function_call;
+
     }child_nodes;
 };
 
@@ -323,10 +336,35 @@ struct ast_node_print_string_function_call
     char *string;
 };
 
-struct ast_node_print_expression_function_call
+struct ast_node_print_expression_int_function_call
 {
     int node_type;
     int add_newline;
+    sym_ptr symbol_entry;
+    ast_node_expression *expression;
+};
+
+struct ast_node_print_expression_float_function_call
+{
+    int node_type;
+    int add_newline;
+    sym_ptr symbol_entry;
+    ast_node_expression *expression;
+};
+
+struct ast_node_print_expression_complex_function_call
+{
+    int node_type;
+    int add_newline;
+    sym_ptr symbol_entry;
+    ast_node_expression *expression;
+};
+
+struct ast_node_print_expression_intp_function_call
+{
+    int node_type;
+    int add_newline;
+    sym_ptr symbol_entry;
     ast_node_expression *expression;
 };
 
@@ -359,8 +397,10 @@ ast_node_function_call *create_function_call_node(sym_ptr symbol, ast_node_argum
 ast_node_arguments *create_argument_node();
 ast_node_arguments *add_argument_node(ast_node_arguments *parent, ast_node_expression *argument);
 ast_node_print_string_function_call *create_print_string_function_call_node(char *string, int add_newline);
-ast_node_print_expression_function_call *create_print_expression_function_call_node(ast_node_expression *expression, int add_newline);
-
+ast_node_print_expression_int_function_call *create_print_expression_int_function_call_node(sym_ptr symbol, int add_newline);
+ast_node_print_expression_float_function_call *create_print_expression_float_function_call_node(sym_ptr symbol, int add_newline);
+ast_node_print_expression_complex_function_call *create_print_expression_complex_function_call_node(sym_ptr symbol, int add_newline);
+ast_node_print_expression_intp_function_call *create_print_expression_intp_function_call_node(ast_node_expression *expression, int add_newline);
 
 void ast_node_dump(ast_node* ast);
 void ast_node_type(int node_type);

@@ -56,7 +56,10 @@ void ast_loop_while_printer(ast_node_loop_while *node, FILE* handle);
 void ast_function_call_printer(ast_node_function_call *fc, FILE* handle);
 void ast_function_definition(ast_node_function_def *def, FILE* handle);
 void ast_print_string_function_call_printer(ast_node_print_string_function_call *pfc, FILE* handle);
-void ast_print_expression_function_call_printer(ast_node_print_expression_function_call *pfc, FILE *handle);
+void ast_print_expression_int_function_call_printer(ast_node_print_expression_int_function_call *pfc1, FILE *handle);
+void ast_print_expression_float_function_call_printer(ast_node_print_expression_float_function_call *pfc2, FILE *handle);
+void ast_print_expression_complex_function_call_printer(ast_node_print_expression_complex_function_call *pfc3, FILE *handle);
+void ast_print_expression_intp_function_call_printer(ast_node_print_expression_intp_function_call *pfc, FILE *handle);
 int code_printer(ast_node* ast);
 
 #endif
