@@ -458,9 +458,12 @@ void ast_print_expression_complex_function_call_printer(ast_node_print_expressio
 {
     if (pfc3 != NULL && handle != NULL)
     {
-        fprintf(handle, "printf(\"%%s\", ");
+        fprintf(handle, "printf(\"%s + %si\", ","%f","%f");
+        fprintf(handle, "creal(");
         fprintf(handle, "%s", pfc3->symbol_entry->identifier);
-        fprintf(handle, ")");
+        fprintf(handle, ") , cimag(");
+        fprintf(handle, "%s", pfc3->symbol_entry->identifier);
+        fprintf(handle, ") )");
         
         if (pfc3->add_newline)
         {
