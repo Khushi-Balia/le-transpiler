@@ -1,9 +1,6 @@
-<br />
-<p align ="center">
-  <a href="transpiler">
-    <img src="/images/PYLOX-1(1).png" alt="Logo" width="400" height="400">
-  </a>
-</p>
+
+<img src="/images/PYLOX-1(1).png" alt="Logo" width="400" height="400">
+
 
 # **LE TRANSPILER**
 - The main aim of our project is to convert our custom syntax, pylox, to an equivalent C code using a toy compiler.
