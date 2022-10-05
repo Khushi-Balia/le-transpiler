@@ -44,7 +44,7 @@ To put it down simply, a transpiler has the following phases
 <img src="/images/flowchart.PNG" alt="drawing" width="500"/>
 
 
-----
+
 ## Implementation details of transpiler
 ---
 ### 1) **Lexing**
