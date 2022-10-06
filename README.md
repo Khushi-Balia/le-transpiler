@@ -181,7 +181,7 @@ make
 ----
 ## Contributors
 
-* [Khushi balia](https://github.com/Khushi-Balia)        * [Rajat kaushik](https://github.com/rajatkaush11)
+* [Khushi Balia](https://github.com/Khushi-Balia)        * [Rajat Kaushik](https://github.com/rajatkaush11)
 
 
 ---
