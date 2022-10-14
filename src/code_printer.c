@@ -60,9 +60,27 @@ void ast_compound_statement_printer(ast_node_compound_statement *cmpd_stmt, FILE
                 fprintf(handle, "%s", ";\n");
                 break;
 
-            case AST_NODE_PRINT_EXP_FUNCTION_CALL:
+            case AST_NODE_PRINT_EXP_INT_FUNCTION_CALL:
                 fprintf(handle, "%s", "\t");
-                ast_print_expression_function_call_printer(((ast_node_statements*)temp)->child_nodes.print_expression_function_call, handle);
+                ast_print_expression_int_function_call_printer(((ast_node_statements*)temp)->child_nodes.print_expression_int_function_call, handle);
+                fprintf(handle, "%s", ";\n");
+                break;
+
+            case AST_NODE_PRINT_EXP_FLOAT_FUNCTION_CALL:
+                fprintf(handle, "%s", "\t");
+                ast_print_expression_float_function_call_printer(((ast_node_statements*)temp)->child_nodes.print_expression_float_function_call, handle);
+                fprintf(handle, "%s", ";\n");
+                break;
+
+            case AST_NODE_PRINT_EXP_COMPLEX_FUNCTION_CALL:
+                fprintf(handle, "%s", "\t");
+                ast_print_expression_complex_function_call_printer(((ast_node_statements*)temp)->child_nodes.print_expression_complex_function_call, handle);
+                fprintf(handle, "%s", ";\n");
+                break;
+
+            case AST_NODE_PRINT_EXP_INTP_FUNCTION_CALL:
+                fprintf(handle, "%s", "\t");
+                ast_print_expression_intp_function_call_printer(((ast_node_statements*)temp)->child_nodes.print_expression_intp_function_call, handle);
                 fprintf(handle, "%s", ";\n");
                 break;
 
@@ -106,6 +124,14 @@ void ast_declaration_printer(ast_node_declaration *decl, FILE* handle)
             {
                 fprintf(handle, "\t%s %s ;\n", "float", decl->symbol_entry->identifier);
             }
+            else if (decl->symbol_entry->data_type == DT_COMP_)
+            {
+                fprintf(handle, "\t%s %s %s ;\n","float", "complex", decl->symbol_entry->identifier);
+            }
+            else if (decl->symbol_entry->data_type == DT_INTEGER_P)
+            {
+                fprintf(handle, "\t%s %s ;\n","int*", decl->symbol_entry->identifier);
+            }
         }
         else if (decl->expression != NULL)
         {
@@ -121,8 +147,16 @@ void ast_declaration_printer(ast_node_declaration *decl, FILE* handle)
             {
                 fprintf(handle, "\t%s %s = ", "float", decl->symbol_entry->identifier);
             }
+            else if (decl->symbol_entry->data_type == DT_COMP_)
+            {
+                fprintf(handle, "\t%s %s %s = ","float", "complex", decl->symbol_entry->identifier);
+            }
+            else if (decl->symbol_entry->data_type == DT_INTEGER_P)
+            {
+                fprintf(handle, "\t%s %s = &","int*", decl->symbol_entry->identifier);
+            }
             ast_expression_printer(decl->expression, handle);
-            fprintf(handle, "%s", ";\n");
+            fprintf(handle,"%s",";\n");
         }
         
     }
@@ -233,7 +267,12 @@ void ast_expression_printer(ast_node_expression* node, FILE* handle)
       
                 case AST_OPR_LT:     
                     fprintf(handle, "%s", _OPR_LT);
+                    break;  
+
+                case AST_OPR_MATH:     
+                    fprintf(handle, "%s", _COMMA);
                     break;     
+   
 
                 case AST_OPR_EQ:     
                     fprintf(handle, "%s", _OPR_EQ);
@@ -290,7 +329,7 @@ void ast_expression_printer(ast_node_expression* node, FILE* handle)
             }
             else if (((ast_node_variable*)node->left)->symbol_entry->is_constant == 0)
             {
-                fprintf(handle, " %s ", ((ast_node_variable*)node->left)->symbol_entry->identifier);
+                fprintf(handle, "%s ", ((ast_node_variable*)node->left)->symbol_entry->identifier);
             }
             
         }
@@ -324,6 +363,22 @@ void ast_expression_printer(ast_node_expression* node, FILE* handle)
             fprintf(handle,"log(%f",node->valuef);
             fprintf(handle, ")");
         }
+
+        if(node->opt == AST_MT_COMP)
+        {
+            fprintf(handle,"CMPLX(");
+            if (((ast_node_variable*)node->left)->symbol_entry->is_constant == 0)
+            {
+                fprintf(handle, " %s ,", ((ast_node_variable*)node->left)->symbol_entry->identifier);
+            }
+            if (((ast_node_variable*)node->right)->symbol_entry->is_constant == 0)
+            {
+                fprintf(handle, " %s ", ((ast_node_variable*)node->right)->symbol_entry->identifier);
+            }
+            fprintf(handle, ")");
+        }
+
+
 
         if (node->opt == AST_NODE_ARRAY_ACCESS)
         {
@@ -369,11 +424,59 @@ void ast_conditional_if_printer(ast_node_conditional_if *node, FILE* handle)
     }
 }
 
-void ast_print_expression_function_call_printer(ast_node_print_expression_function_call *pfc, FILE *handle)
+void ast_print_expression_int_function_call_printer(ast_node_print_expression_int_function_call *pfc1, FILE *handle)
+{
+    if (pfc1 != NULL && handle != NULL)
+    {
+        fprintf(handle, "printf(\"%%d\", ");
+        fprintf(handle, "%s", pfc1->symbol_entry->identifier);
+        fprintf(handle, ")");
+        
+        if (pfc1->add_newline)
+        {
+            fprintf(handle, "; printf(\"\\n\")");
+        }
+    }
+}
+
+void ast_print_expression_float_function_call_printer(ast_node_print_expression_float_function_call *pfc2, FILE *handle)
+{
+    if (pfc2 != NULL && handle != NULL)
+    {
+        fprintf(handle, "printf(\"%%f\", ");        
+        fprintf(handle, "%s", pfc2->symbol_entry->identifier);
+        fprintf(handle, ")");
+        
+        if (pfc2->add_newline)
+        {
+            fprintf(handle, "; printf(\"\\n\")");
+        }
+    }
+}
+
+void ast_print_expression_complex_function_call_printer(ast_node_print_expression_complex_function_call *pfc3, FILE *handle)
+{
+    if (pfc3 != NULL && handle != NULL)
+    {
+        fprintf(handle, "printf(\"%s + %si\", ","%f","%f");
+        fprintf(handle, "creal(");
+        fprintf(handle, "%s", pfc3->symbol_entry->identifier);
+        fprintf(handle, ") , cimag(");
+        fprintf(handle, "%s", pfc3->symbol_entry->identifier);
+        fprintf(handle, ") )");
+        
+        if (pfc3->add_newline)
+        {
+            fprintf(handle, "; printf(\"\\n\")");
+        }
+    }
+}
+
+void ast_print_expression_intp_function_call_printer(ast_node_print_expression_intp_function_call *pfc, FILE *handle)
 {
     if (pfc != NULL && handle != NULL)
-    { 
-        fprintf(handle, "printf(\"%%f\", ");
+    {
+        fprintf(handle, "printf(\"%%p\", ");
         ast_expression_printer(pfc->expression, handle);
         fprintf(handle, ")");
         
@@ -524,6 +627,7 @@ int code_printer(ast_node* ast)
     
     fprintf(handle, "%s", TEST);
     fprintf(handle, "%s", MATH);
+    fprintf(handle, "%s", COMPLEX);
     fprintf(handle, "\n");
     
     int i = 0;
@@ -588,9 +692,27 @@ int code_printer(ast_node* ast)
                 fprintf(handle, "%s", ";\n");
                 break;
             
-            case AST_NODE_PRINT_EXP_FUNCTION_CALL:
+            case AST_NODE_PRINT_EXP_INT_FUNCTION_CALL:
                 fprintf(handle, "%s", "\t");
-                ast_print_expression_function_call_printer(((ast_node_statements*)temp)->child_nodes.print_expression_function_call, handle);
+                ast_print_expression_int_function_call_printer(((ast_node_statements*)temp)->child_nodes.print_expression_int_function_call, handle);
+                fprintf(handle, "%s", ";\n");
+                break;
+
+            case AST_NODE_PRINT_EXP_FLOAT_FUNCTION_CALL:
+                fprintf(handle, "%s", "\t");
+                ast_print_expression_float_function_call_printer(((ast_node_statements*)temp)->child_nodes.print_expression_float_function_call, handle);
+                fprintf(handle, "%s", ";\n");
+                break;
+
+            case AST_NODE_PRINT_EXP_COMPLEX_FUNCTION_CALL:
+                fprintf(handle, "%s", "\t");
+                ast_print_expression_complex_function_call_printer(((ast_node_statements*)temp)->child_nodes.print_expression_complex_function_call, handle);
+                fprintf(handle, "%s", ";\n");
+                break;
+
+            case AST_NODE_PRINT_EXP_INTP_FUNCTION_CALL:
+                fprintf(handle, "%s", "\t");
+                ast_print_expression_intp_function_call_printer(((ast_node_statements*)temp)->child_nodes.print_expression_intp_function_call, handle);
                 fprintf(handle, "%s", ";\n");
                 break;
                 
