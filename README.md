@@ -24,6 +24,7 @@
   - [Third party apps used](#third-party-apps-used)
   - [Cmake](#cmake)
   - [Build](#build)
+  - [Generating temp.c file](#generating-temp.c-file)
   - [Compiling using make](#compiling-using-make)
   
 
