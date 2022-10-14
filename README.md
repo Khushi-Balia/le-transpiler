@@ -133,10 +133,6 @@ make
 ```
 <img src="/images/n2.png" alt="drawing" width="500"/>
 
-----
-
-
-
 ## Compiling using make 
 
 Compile the generated source code. 
