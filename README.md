@@ -15,7 +15,7 @@
 ---
 ## Table of contents 
 ---
-- [About our project](#about-the-project)
+- [About the project](#about-the-project)
 - [Implementation details of transpiler](#implementation-details-of-transpiler)
   - [Lexical analyser](#lexical-analyser)
   - [Parsing](#parsing)
