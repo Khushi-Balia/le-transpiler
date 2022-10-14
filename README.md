@@ -24,7 +24,6 @@
   - [Third party apps used](#third-party-apps-used)
   - [Cmake](#cmake)
   - [Build](#build)
-  - [Generating temp.c file](#generating-temp.c-file)
   - [Compiling using make](#compiling-using-make)
   
 
@@ -136,35 +135,7 @@ make
 
 ----
 
-## Generating temp.c file
 
-Open a terminal in the bin folder, where you write the code in pylox
-
-```
-nano pylox.test
-```
-This will open a text editor 
-
-<img src="/images/n5.png" alt="drawing" width="500"/>
-
-Using cat, you can view the content you have written in the text editor 
-
-```
-cat pylox.test
-```
-
-Transpile the code written in pylox, to C code,
-```
-./le-transpiler pylox.test
-```
-<img src="/images/n3.png" alt="drawing" width="500"/>
-
-
-A temp.c file will be generated in your tmp folder in the computer,as mentioned in the file handling in  [code_printer.c](https://github.com/Khushi-Balia/le-transpiler/blob/main/src/code_printer.c)
-
-<img src="/images/n4.png" alt="drawing" width="500"/>
-
-----
 ## Compiling using make 
 
 Compile the generated source code. 
