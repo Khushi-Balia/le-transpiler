@@ -156,7 +156,7 @@ make
 ---
 ## Acknowledgements and Resources
 * [SRA-VJTI for providing this wonderful opportunity](https://sravjti.in/) Eklavya 2021 
-* Special thanks to our mentor [Krishna Narayanan](https://github.com/Krishna-13-cyber) and Himanshu Chougule for their guidance throughout this project
+* Special thanks to our mentor [Krishna Narayanan](https://github.com/Krishna-13-cyber), Himanshu Chougule and Rishikesh Donadkar for their guidance throughout this project
 - [Repo referred](https://github.com/VedantParanjape/simpPRU/tree/master/src)
 - [Lexer-parser code ](https://www.youtube.com/watch?v=eF9qWbuQLuw)
 - [How to use markdown file](https://youtu.be/bpdvNwvEeSE)
